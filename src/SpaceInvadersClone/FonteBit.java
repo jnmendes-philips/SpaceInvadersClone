@@ -7,18 +7,18 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Fonte8Bit {
+public class FonteBit {
 
-    public Font fonte() {
+    public Font fonte(float tam) {
         Font fonte = null;
         try {
             fonte = Font.createFont(Font.TRUETYPE_FONT, new File(System.getProperty("user.dir") + System.getProperty("file.separator") + "8bitoperator.ttf"));
-            fonte = fonte.deriveFont(fonte.getSize() * 50F);
+            fonte = fonte.deriveFont(fonte.getSize() * tam);
             return fonte;
         } catch (FontFormatException ex) {
-            Logger.getLogger(Fonte8Bit.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FonteBit.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(Fonte8Bit.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FonteBit.class.getName()).log(Level.SEVERE, null, ex);
         }
         return fonte;
     }

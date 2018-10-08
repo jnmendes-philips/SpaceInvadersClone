@@ -14,9 +14,7 @@ public class Campo extends JPanel {
     }
 
     private void colocarComponentes() {
-        JLabel l = new JLabel("aa");
-        l.setFont(new Fonte8Bit().fonte());
-        this.add(l);
+        this.add(new LabelBit("teste", 50));
     }
     
 }
