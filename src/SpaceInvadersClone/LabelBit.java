@@ -16,7 +16,7 @@ public class LabelBit extends JLabel {
                 Integer.parseInt(String.valueOf(Math.round((panel.getHeight() - ver - this.getSize().height) / 2))),
                 this.getFontMetrics(this.getFont()).stringWidth(texto), 
                 this.getFontMetrics(this.getFont()).getHeight());
-        this.setForeground(Color.yellow);
+        this.setForeground(Color.WHITE);
     }
     
 }

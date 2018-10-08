@@ -2,22 +2,31 @@ package SpaceInvadersClone;
 
 import java.awt.Color;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class Placar extends JPanel {
 
     public Placar(JFrame tela) {
+        this.setLayout(null);
         this.setSize(tela.getWidth(), 100);
         this.setLocation(0, 0);
         this.setBackground(Color.BLACK);
-        this.setLayout(null);
-        this.setVisible(true);
         colocarComponentes();
     }
 
     private void colocarComponentes() {
-        this.add(new LabelBit(this, "score", 50, 0, 0));
+        // primeira linha
+        this.add(new LabelBit(this, "SCORE<1>", 28, 550-157, 90));
+        this.add(new LabelBit(this, "HI-SCORE", 28, 0, 90));
+        this.add(new LabelBit(this, "SCORE<2>", 28, -550+162, 90));
+        // segunda linha
+        /*
+        Função para implementar abaixo
+        */
+        //this.add(new LabelBit(this, scoreJogador1, 28, 630-tamScore, 90));
+        //this.add(new LabelBit(this, maiorScore, 28, 0, 90));
+        //this.add(new LabelBit(this, scoreJogador2, 28, 630-tamScore, 90));
+        
     }
     
 }
