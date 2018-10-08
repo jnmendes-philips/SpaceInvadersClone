@@ -2,19 +2,19 @@ package SpaceInvadersClone;
 
 import java.awt.Color;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class Campo extends JPanel {
 
     public Campo(JFrame tela) {
-        this.setBounds(tela.getBounds());
-        this.setBackground(Color.BLACK);
+        this.setSize(tela.getWidth(), tela.getHeight() - 100);
+        this.setLocation(0, 100);
+        this.setBackground(Color.CYAN);
         colocarComponentes();
     }
 
     private void colocarComponentes() {
-        this.add(new LabelBit("teste", 50));
+        //this.add(new LabelBit("score", 100));
     }
     
 }

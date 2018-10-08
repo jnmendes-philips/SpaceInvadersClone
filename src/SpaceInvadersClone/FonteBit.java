@@ -14,7 +14,6 @@ public class FonteBit {
         try {
             fonte = Font.createFont(Font.TRUETYPE_FONT, new File(System.getProperty("user.dir") + System.getProperty("file.separator") + "8bitoperator.ttf"));
             fonte = fonte.deriveFont(fonte.getSize() * tam);
-            return fonte;
         } catch (FontFormatException ex) {
             Logger.getLogger(FonteBit.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
