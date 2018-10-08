@@ -1,14 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package SpaceInvadersClone;
 
-/**
- *
- * @author aluno
- */
-public class Tela {
+import java.awt.Toolkit;
+import javax.swing.JFrame;
+
+
+public class Tela extends JFrame {
+
+    public Tela() {
+        this.setSize(630, 800);
+        this.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - this.getSize().width)/2, (Toolkit.getDefaultToolkit().getScreenSize().height - this.getSize().height)/2);
+        this.setVisible(true);
+        colocarComponentes();
+    }
+
+    private void colocarComponentes() {
+        this.add(new Campo(this));
+    }
     
 }
