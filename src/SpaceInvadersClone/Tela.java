@@ -9,6 +9,7 @@ public class Tela extends JFrame {
     public Tela() {
         this.setSize(630, 800);
         this.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - this.getSize().width)/2, (Toolkit.getDefaultToolkit().getScreenSize().height - this.getSize().height)/2);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setVisible(true);
         colocarComponentes();
     }
