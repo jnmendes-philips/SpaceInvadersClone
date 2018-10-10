@@ -8,7 +8,7 @@ public class Campo extends JPanel {
 
     public Campo(JFrame tela) {
         this.setSize(tela.getWidth(), tela.getHeight() - 100);
-        this.setLocation(0, 100);
+        this.setLocation(0, 50);
         this.setBackground(Color.CYAN);
         colocarComponentes();
     }

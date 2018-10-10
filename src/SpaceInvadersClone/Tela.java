@@ -15,7 +15,6 @@ public class Tela extends JFrame {
         this.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - this.getSize().width)/2, (Toolkit.getDefaultToolkit().getScreenSize().height - this.getSize().height)/2);
         this.setUndecorated(true);
         this.moveFrame();
-        this.setVisible(true);
         this.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent ke) {
@@ -25,11 +24,13 @@ public class Tela extends JFrame {
             }
         });
         colocarComponentes();
+        this.setVisible(true);
     }
 
     private void colocarComponentes() {
         this.add(new Placar(this));
         this.add(new Campo(this));
+        //this.add(new Info(this));
     }
     
     // Possibilita mover o frame apenas clicando e arrastando com o curso do mouse
