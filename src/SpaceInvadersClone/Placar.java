@@ -6,26 +6,44 @@ import javax.swing.JPanel;
 
 public class Placar extends JPanel {
 
+    LabelBit pontuacaoJogador1;
+    LabelBit pontuacaoMaior;
+    LabelBit pontuacaoJogador2;
+    LabelBit pontosJogador1;
+    LabelBit pontosMaior;
+    LabelBit pontosJogador2;
+    
     public Placar(JFrame tela) {
         this.setLayout(null);
         this.setSize(tela.getWidth(), 100);
         this.setLocation(0, 0);
         this.setBackground(Color.BLACK);
+        init();
         colocarComponentes();
     }
 
+    private void init() {
+        pontuacaoJogador1 = new LabelBit(this, "SCORE<1>", 28, (this.getWidth()-80)-157, 70);
+        pontuacaoMaior = new LabelBit(this, "HI-SCORE", 28, 0, 70);
+        pontuacaoJogador2 = new LabelBit(this, "SCORE<2>", 28, -(this.getWidth()-80)+162, 70);
+        // trocar o "0000" pelos pontos dos jogadores mesmo
+        // criar um método atualizarPontos na classe labelbit mais tarde
+        pontosJogador1 = new LabelBit(this, "0000", 28, (this.getWidth()-80)-84-60, -10);
+        pontosJogador1.atualizarLocal((this.getWidth()-80)-pontuacaoJogador1.getWidth(), -10);
+        pontosMaior = new LabelBit(this, "0000", 28, 0, -10);
+        pontosJogador2 = new LabelBit(this, "0000", 28, -(this.getWidth()-80)+84+60, -10);
+        pontosJogador2.atualizarLocal(-(this.getWidth()-80)+pontuacaoJogador2.getWidth(), -10);
+    }
+    
     private void colocarComponentes() {
         // primeira linha
-        this.add(new LabelBit(this, "SCORE<1>", 28, 550-157, 70));
-        this.add(new LabelBit(this, "HI-SCORE", 28, 0, 70));
-        this.add(new LabelBit(this, "SCORE<2>", 28, -550+162, 70));
+        this.add(pontuacaoJogador1);
+        this.add(pontuacaoMaior);
+        this.add(pontuacaoJogador2);
         // segunda linha
-        /*
-        Função para implementar abaixo
-        */
-        //this.add(new LabelBit(this, scoreJogador1, 28, 630-tamScore, 90));
-        //this.add(new LabelBit(this, maiorScore, 28, 0, 90));
-        //this.add(new LabelBit(this, scoreJogador2, 28, 630-tamScore, 90));
+        this.add(pontosJogador1);
+        this.add(pontosMaior);
+        this.add(pontosJogador2);
         
     }
     
