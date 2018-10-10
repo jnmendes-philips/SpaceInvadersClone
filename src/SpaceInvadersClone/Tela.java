@@ -6,15 +6,49 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class Tela extends JFrame {
 
+    JPanel placar;
+    JPanel campo;
+    JPanel info;
+    
     public Tela() {
         this.setLayout(null);
         this.setSize(630, 800);
         this.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - this.getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - this.getSize().height) / 2);
         this.setUndecorated(true);
         this.moveFrame();
+        init();
+        gameLoop();
+    }
+    
+    private void init() {
+        placar = new Placar(this);
+        campo = new Campo(this);
+        info = new Info(this);
+    }
+    
+    private void gameLoop() {
+        while (true) {
+            update();
+            render();
+        }
+    }
+    
+    private void update() {
+        handleEvents();
+    }
+    
+    private void render() {
+        this.add(placar);
+        this.add(campo);
+        this.add(info);
+        this.setVisible(true);
+    }
+    
+    private void handleEvents() {
         this.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent ke) {
@@ -23,14 +57,6 @@ public class Tela extends JFrame {
                 }
             }
         });
-        colocarComponentes();
-        this.setVisible(true);
-    }
-
-    private void colocarComponentes() {
-        this.add(new Placar(this));
-        this.add(new Campo(this));
-        this.add(new Info(this));
     }
 
     // Possibilita mover o frame apenas clicando e arrastando com o curso do mouse

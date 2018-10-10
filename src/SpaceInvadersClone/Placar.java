@@ -28,6 +28,8 @@ public class Placar extends JPanel {
         pontuacaoJogador2 = new LabelBit(this, "SCORE<2>", 28, -(this.getWidth()-80)+162, 70);
         // trocar o "0000" pelos pontos dos jogadores mesmo
         // criar um método atualizarPontos na classe labelbit mais tarde
+        // os métodos para atualizar os pontos não ficarão aqui, terão que ficar dentro do gameloop
+        // lá também terão que ficar os métodos de atualizar o local
         pontosJogador1 = new LabelBit(this, "0000", 28, (this.getWidth()-80)-84-60, -10);
         pontosJogador1.atualizarLocal((this.getWidth()-80)-pontuacaoJogador1.getWidth(), -10);
         pontosMaior = new LabelBit(this, "0000", 28, 0, -10);

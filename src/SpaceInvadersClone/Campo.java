@@ -10,7 +10,7 @@ public class Campo extends JPanel {
         this.setLayout(null);
         this.setSize(tela.getWidth(), tela.getHeight() - 150);
         this.setLocation(0, 100);
-        this.setBackground(Color.CYAN);
+        this.setBackground(Color.BLACK);
         colocarComponentes();
     }
 
