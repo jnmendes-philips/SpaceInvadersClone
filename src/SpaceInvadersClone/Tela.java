@@ -7,12 +7,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
 
-
 public class Tela extends JFrame {
 
     public Tela() {
+        this.setLayout(null);
         this.setSize(630, 800);
-        this.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - this.getSize().width)/2, (Toolkit.getDefaultToolkit().getScreenSize().height - this.getSize().height)/2);
+        this.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - this.getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - this.getSize().height) / 2);
         this.setUndecorated(true);
         this.moveFrame();
         this.addKeyListener(new KeyAdapter() {
@@ -30,20 +30,21 @@ public class Tela extends JFrame {
     private void colocarComponentes() {
         this.add(new Placar(this));
         this.add(new Campo(this));
-        //this.add(new Info(this));
+        this.add(new Info(this));
     }
-    
+
     // Possibilita mover o frame apenas clicando e arrastando com o curso do mouse
     private void moveFrame() {
         MouseAdapter ma = new MouseAdapter() {
             int mousePressedX;
             int mousePressedY;
-            
+
             @Override
             public void mousePressed(MouseEvent e) {
                 mousePressedX = e.getXOnScreen();
                 mousePressedY = e.getYOnScreen();
             }
+
             @Override
             public void mouseDragged(MouseEvent e) {
                 setLocation(getLocationOnScreen().x + e.getXOnScreen() - mousePressedX,
@@ -55,5 +56,5 @@ public class Tela extends JFrame {
         this.addMouseListener(ma);
         this.addMouseMotionListener(ma);
     }
-    
+
 }

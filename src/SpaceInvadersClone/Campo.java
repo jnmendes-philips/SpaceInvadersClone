@@ -7,14 +7,15 @@ import javax.swing.JPanel;
 public class Campo extends JPanel {
 
     public Campo(JFrame tela) {
-        this.setSize(tela.getWidth(), tela.getHeight() - 100);
-        this.setLocation(0, 50);
+        this.setLayout(null);
+        this.setSize(tela.getWidth(), tela.getHeight() - 150);
+        this.setLocation(0, 100);
         this.setBackground(Color.CYAN);
         colocarComponentes();
     }
 
     private void colocarComponentes() {
-        //this.add(new LabelBit("score", 100));
+        
     }
     
 }

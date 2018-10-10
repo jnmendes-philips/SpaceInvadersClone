@@ -10,8 +10,8 @@ public class LabelBit extends JLabel {
     public LabelBit(JPanel panel, String texto, float tam, int hor, int ver) {
         Font fonte = new FonteBit().fonte(tam);
         this.setText(texto);
-        this.setSize(fonte.getSize(), fonte.getSize());
         this.setFont(fonte);
+        this.setSize(this.getFontMetrics(this.getFont()).stringWidth(texto), this.getFontMetrics(this.getFont()).getHeight());
         this.setBounds(Integer.parseInt(String.valueOf(Math.round((panel.getWidth() - hor - this.getFontMetrics(this.getFont()).stringWidth(texto)) / 2))),
                 Integer.parseInt(String.valueOf(Math.round((panel.getHeight() - ver - this.getSize().height) / 2))),
                 this.getFontMetrics(this.getFont()).stringWidth(texto), 

@@ -16,9 +16,9 @@ public class Placar extends JPanel {
 
     private void colocarComponentes() {
         // primeira linha
-        this.add(new LabelBit(this, "SCORE<1>", 28, 550-157, 90));
-        this.add(new LabelBit(this, "HI-SCORE", 28, 0, 90));
-        this.add(new LabelBit(this, "SCORE<2>", 28, -550+162, 90));
+        this.add(new LabelBit(this, "SCORE<1>", 28, 550-157, 70));
+        this.add(new LabelBit(this, "HI-SCORE", 28, 0, 70));
+        this.add(new LabelBit(this, "SCORE<2>", 28, -550+162, 70));
         // segunda linha
         /*
         Função para implementar abaixo
