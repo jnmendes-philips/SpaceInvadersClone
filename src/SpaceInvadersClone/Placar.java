@@ -1,7 +1,6 @@
 package SpaceInvadersClone;
 
 import java.awt.Color;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class Placar extends JPanel {
@@ -13,7 +12,7 @@ public class Placar extends JPanel {
     LabelBit pontosMaior;
     LabelBit pontosJogador2;
     
-    public Placar(JFrame tela) {
+    public Placar(Tela tela) {
         this.setLayout(null);
         this.setSize(tela.getWidth(), 100);
         this.setLocation(0, 0);

@@ -6,13 +6,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 public class Tela extends JFrame {
 
-    JPanel placar;
-    JPanel campo;
-    JPanel info;
+    Placar placar;
+    Campo campo;
+    Info info;
 
     final int QUADROS_POR_SEGUNDO = 60;
     final double TAXA_ATUALIZACAO = 1000 / QUADROS_POR_SEGUNDO;
