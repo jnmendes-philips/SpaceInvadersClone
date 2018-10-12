@@ -26,7 +26,7 @@ public class Tela extends JFrame {
 
     public Tela() throws InterruptedException {
         this.setLayout(null);
-        this.setSize(630, 800);
+        this.setSize(635, 800);
         this.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - this.getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - this.getSize().height) / 2);
         this.setUndecorated(true);
         this.moveFrame();
