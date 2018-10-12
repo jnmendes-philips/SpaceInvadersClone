@@ -3,15 +3,14 @@ package SpaceInvadersClone;
 import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class Campo extends JPanel {
 
-    JLabel barreira1;
-    JLabel barreira2;
-    JLabel barreira3;
-    JLabel barreira4;
+    Sprite barreira1;
+    Sprite barreira2;
+    Sprite barreira3;
+    Sprite barreira4;
     
     
     public Campo(JFrame tela) {
@@ -24,10 +23,10 @@ public class Campo extends JPanel {
     }
 
     private void init() {
-        barreira1 = new Barreira(100, 500);
-        barreira2 = new Barreira(100+65+60, 500);
-        barreira3 = new Barreira(this.getWidth()-100-65-60-60, 500);
-        barreira4 = new Barreira(this.getWidth()-100-60, 500);
+        barreira1 = new Barreira("barreira", 100, 500, 66, 56);
+        barreira2 = new Barreira("barreira", 100+65+60, 500, 66, 56);
+        barreira3 = new Barreira("barreira", this.getWidth()-100-65-60-60, 500, 66, 56);
+        barreira4 = new Barreira("barreira", this.getWidth()-100-60, 500, 66, 56);
     }
     
     private void colocarComponentes() {
