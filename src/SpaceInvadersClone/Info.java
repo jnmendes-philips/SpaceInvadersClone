@@ -29,9 +29,9 @@ public class Info extends JPanel {
         qtdCreditos = new LabelBit(this, "00", 28, -(this.getWidth()-80)+42, 25);
         qtdCreditos.atualizarLocal(-(this.getWidth()-80)+qtdCreditos.getWidth(), 25);
         vidas = new Sprite[tela.campo.jogador.numVidas-1];
-        vidas[0] = new Sprite("jogador", 74, this.getHeight()-29-23, 40, 29);
+        vidas[0] = new Sprite("jogador", 74, this.getHeight()-29-23, 40, 29, 1, 1);
         for (int i = 1; i < vidas.length; i++) {
-            vidas[i] = new Sprite("jogador", vidas[i-1].getX()+(i+50), this.getHeight()-29-23, 40, 29);
+            vidas[i] = new Sprite("jogador", vidas[i-1].getX()+(i+50), this.getHeight()-29-23, 40, 29, 1, 1);
         }
     }
 

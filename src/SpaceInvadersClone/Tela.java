@@ -64,7 +64,7 @@ public class Tela extends JFrame {
         this.add(placar);
         this.add(campo);
         this.add(info);
-        System.out.println("FPS " + mediaQuadros);
+        //System.out.println("FPS " + mediaQuadros);
         this.setVisible(true);
     }
 

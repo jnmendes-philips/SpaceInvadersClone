@@ -1,15 +1,17 @@
 package SpaceInvadersClone;
 
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.JLabel;
 
-public class SpriteSheet {
+public class SpriteSheet extends JLabel {
 
-    String image;
+    String imagem;
     int largura;
     int altura;
     int linhas;
@@ -18,10 +20,12 @@ public class SpriteSheet {
     BufferedImage spriteSheet;
     BufferedImage[] sprites;
 
-    public SpriteSheet(String image, int largura, int altura, int linhas, int colunas) {
-        this.image = image;
+    public SpriteSheet(String imagem, int x, int y, int largura, int altura, int linhas, int colunas) {
+        this.imagem = imagem;
         this.largura = largura;
         this.altura = altura;
+        this.setSize(largura, altura);
+        this.setLocation(x, y);
         this.linhas = linhas;
         this.colunas = colunas;
         init();
@@ -30,7 +34,7 @@ public class SpriteSheet {
 
     private void init() {
         try {
-            spriteSheet = ImageIO.read(new File(this.image));
+            spriteSheet = ImageIO.read(new File(getClass().getResource("/resources/"+ imagem +".png").getFile()));
         } catch (IOException ex) {
             Logger.getLogger(SpriteSheet.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -41,13 +45,21 @@ public class SpriteSheet {
         for (int i = 0; i < linhas; i++) {
             for (int j = 0; j < colunas; j++) {
                 sprites[(i * colunas) + j] = spriteSheet.getSubimage(
-                        j * largura,
-                        i * altura,
-                        largura,
-                        altura
+                        j * (largura/colunas),
+                        i * (altura/linhas),
+                        largura/colunas,
+                        altura/linhas
                 );
             }
         }
     }
 
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        for (int i = 0; i < sprites.length; i++) {
+            g.drawImage(sprites[i], 0, 0, this);
+        }
+    }
+    
 }
