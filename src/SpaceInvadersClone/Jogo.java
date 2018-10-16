@@ -87,7 +87,9 @@ public class Jogo extends JPanel implements Runnable {
         tela.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent ke) {
-                System.exit(0);
+                if (ke.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    System.exit(0);
+                }
             }
         });
     }

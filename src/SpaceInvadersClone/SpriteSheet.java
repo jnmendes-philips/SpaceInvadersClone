@@ -34,7 +34,7 @@ public class SpriteSheet extends JLabel {
 
     private void init() {
         try {
-            spriteSheet = ImageIO.read(new File(getClass().getResource("/resources/"+ imagem +".png").getFile()));
+            spriteSheet = ImageIO.read(new File(getClass().getResource("/Resources/"+ imagem +".png").getFile()));
         } catch (IOException ex) {
             Logger.getLogger(SpriteSheet.class.getName()).log(Level.SEVERE, null, ex);
         }
