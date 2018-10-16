@@ -12,7 +12,7 @@ public class Placar extends JPanel {
     LabelBit pontosMaior;
     LabelBit pontosJogador2;
     
-    public Placar(Tela tela) {
+    public Placar(Jogo tela) {
         this.setLayout(null);
         this.setSize(tela.getWidth(), 100);
         this.setLocation(0, 0);

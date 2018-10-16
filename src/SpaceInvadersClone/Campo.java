@@ -15,7 +15,7 @@ public class Campo extends JPanel {
     Jogador jogador;
     Sprite linha;
     
-    public Campo(Tela tela) {
+    public Campo(Jogo tela) {
         this.setLayout(null);
         this.setSize(tela.getWidth(), tela.getHeight() - 150);
         this.setLocation(0, 100);

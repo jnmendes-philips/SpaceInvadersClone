@@ -5,7 +5,7 @@ import javax.swing.JPanel;
 
 public class Info extends JPanel {
 
-    Tela tela;
+    Jogo tela;
     
     LabelBit qtdVidas;
     LabelBit creditos;
@@ -13,7 +13,7 @@ public class Info extends JPanel {
     
     Sprite[] vidas;
     
-    public Info(Tela tela) {
+    public Info(Jogo tela) {
         this.tela = tela;
         this.setLayout(null);
         this.setSize(tela.getWidth(), 50);
