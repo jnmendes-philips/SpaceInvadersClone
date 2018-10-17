@@ -16,16 +16,20 @@ public class SpriteSheet extends JLabel {
     int altura;
     int linhas;
     int colunas;
+    int x;
+    int y;
 
     BufferedImage spriteSheet;
     BufferedImage[] sprites;
 
     public SpriteSheet(String imagem, int x, int y, int largura, int altura, int linhas, int colunas) {
         this.imagem = imagem;
+        this.x = x;
+        this.y = y;
         this.largura = largura;
         this.altura = altura;
         this.setSize(largura, altura);
-        this.setLocation(x, y);
+        this.setLocation(this.x, this.y);
         this.linhas = linhas;
         this.colunas = colunas;
         init();
@@ -58,6 +62,7 @@ public class SpriteSheet extends JLabel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         for (int i = 0; i < sprites.length; i++) {
+            this.setLocation(x, y);
             g.drawImage(sprites[i], 0, 0, this);
         }
     }

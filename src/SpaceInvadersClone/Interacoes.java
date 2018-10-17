@@ -3,6 +3,6 @@ package SpaceInvadersClone;
 public interface Interacoes {
     
     public void atirar();
-    public void mover();
+    public void mover(boolean bool);
     
 }

@@ -34,6 +34,7 @@ public class Jogo extends JPanel implements Runnable {
         init();
         tela.setVisible(true);
         colocarComponentes();
+        handleEvents();
         gameLoop.start();
     }
 
@@ -54,11 +55,12 @@ public class Jogo extends JPanel implements Runnable {
     }
 
     private void update() {
-        handleEvents();
     }
 
     private void render() {
-        System.out.println("FPS " + mediaQuadros);
+        campo.jogador.repaint();
+        System.out.println(campo.jogador.x);
+        //System.out.println("FPS " + mediaQuadros);
     }
 
     @Override
@@ -89,6 +91,11 @@ public class Jogo extends JPanel implements Runnable {
             public void keyPressed(KeyEvent ke) {
                 if (ke.getKeyCode() == KeyEvent.VK_ESCAPE) {
                     System.exit(0);
+                }
+                if (ke.getKeyCode() == KeyEvent.VK_RIGHT) {
+                    campo.jogador.mover(true);
+                } else if (ke.getKeyCode() == KeyEvent.VK_LEFT) {
+                    campo.jogador.mover(false);
                 }
             }
         });

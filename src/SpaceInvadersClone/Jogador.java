@@ -18,8 +18,12 @@ public class Jogador extends Personagem {
     }
 
     @Override
-    public void mover() {
-        
+    public void mover(boolean bool) {
+        if (bool) {
+            this.x += 1;
+        } else {
+            this.x -= 1;
+        }
     }
     
 }
