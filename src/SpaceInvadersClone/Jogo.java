@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 public class Jogo extends JPanel implements Runnable {
 
     SpaceInvadersClone tela;
-
+    
     Thread gameLoop;
 
     Placar placar;
@@ -25,6 +25,8 @@ public class Jogo extends JPanel implements Runnable {
 
     int contFrame;
     int contFrameMaximo;
+    
+    boolean running;
 
     public Jogo(SpaceInvadersClone tela) {
         this.tela = tela;
@@ -46,6 +48,7 @@ public class Jogo extends JPanel implements Runnable {
         contFrame = 0;
         contFrameMaximo = 60;
         tempoTotal = 0;
+        running = true;
     }
 
     private void colocarComponentes() {
@@ -66,7 +69,7 @@ public class Jogo extends JPanel implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
+        while (running) {
             tempoInicial = System.currentTimeMillis();
             update();
             render();
@@ -91,7 +94,8 @@ public class Jogo extends JPanel implements Runnable {
             @Override
             public void keyPressed(KeyEvent ke) {
                 if (ke.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                    System.exit(0);
+                    running = false;
+                    tela.dispose();
                 }
                 if (ke.getKeyCode() == KeyEvent.VK_RIGHT) {
                     campo.jogador.velX = 5;
