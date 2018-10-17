@@ -50,6 +50,9 @@ public class Jogo extends JPanel implements Runnable {
         contFrameMaximo = 60;
         tempoTotal = 0;
         running = true;
+        campo.inimigo1.animacao();
+        campo.inimigo2.animacao();
+        campo.inimigo3.animacao();
     }
 
     private void colocarComponentes() {

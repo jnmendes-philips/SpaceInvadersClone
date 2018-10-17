@@ -18,6 +18,7 @@ public class SpriteSheet extends JLabel {
     int colunas;
     int x;
     int y;
+    int frame;
 
     BufferedImage spriteSheet;
     BufferedImage[] sprites;
@@ -37,6 +38,7 @@ public class SpriteSheet extends JLabel {
     }
 
     private void init() {
+        frame = 0;
         try {
             spriteSheet = ImageIO.read(new File(getClass().getResource("/Resources/" + imagem + ".png").getFile()));
         } catch (IOException ex) {
@@ -62,7 +64,7 @@ public class SpriteSheet extends JLabel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         this.setLocation(x, y);
-        g.drawImage(sprites[0], 0, 0, this);
+        g.drawImage(sprites[frame], 0, 0, this);
     }
 
 }
