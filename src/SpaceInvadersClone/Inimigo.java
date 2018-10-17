@@ -12,7 +12,7 @@ public class Inimigo extends Personagem {
     }
 
     @Override
-    public void mover(boolean bool) {
+    public void mover() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

@@ -55,10 +55,11 @@ public class Jogo extends JPanel implements Runnable {
     }
 
     private void update() {
+        campo.jogador.mover();
     }
 
     private void render() {
-        campo.jogador.repaint();
+        campo.repaint();
         System.out.println(campo.jogador.x);
         //System.out.println("FPS " + mediaQuadros);
     }
@@ -93,11 +94,21 @@ public class Jogo extends JPanel implements Runnable {
                     System.exit(0);
                 }
                 if (ke.getKeyCode() == KeyEvent.VK_RIGHT) {
-                    campo.jogador.mover(true);
+                    campo.jogador.velX = 5;
                 } else if (ke.getKeyCode() == KeyEvent.VK_LEFT) {
-                    campo.jogador.mover(false);
+                    campo.jogador.velX = -5;
                 }
             }
+
+            @Override
+            public void keyReleased(KeyEvent ke) {
+                if (ke.getKeyCode() == KeyEvent.VK_RIGHT) {
+                    campo.jogador.velX = 0;
+                } else if (ke.getKeyCode() == KeyEvent.VK_LEFT) {
+                    campo.jogador.velX = 0;
+                }
+            }
+            
         });
     }
 

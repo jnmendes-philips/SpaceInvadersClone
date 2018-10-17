@@ -3,9 +3,15 @@ package SpaceInvadersClone;
 public class Jogador extends Personagem {
 
     int numVidas;
+    int velX;
 
     public Jogador(String imagem, int x, int y, int largura, int altura, int linhas, int colunas) {
         super(imagem, x, y, largura, altura, linhas, colunas);
+        init();
+    }
+    
+    private void init() {
+        velX = 0;
     }
 
     public void setNumVidas(int numVidas) {
@@ -18,12 +24,8 @@ public class Jogador extends Personagem {
     }
 
     @Override
-    public void mover(boolean bool) {
-        if (bool) {
-            this.x += 1;
-        } else {
-            this.x -= 1;
-        }
+    public void mover() {
+        this.x += velX;
     }
     
 }
