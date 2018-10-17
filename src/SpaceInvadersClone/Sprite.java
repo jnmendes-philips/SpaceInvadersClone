@@ -10,7 +10,7 @@ public class Sprite extends SpriteSheet {
     }
 
     @Override
-    public void animacao() {
+    public void animacao(long periodo) {
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -22,7 +22,7 @@ public class Sprite extends SpriteSheet {
                     sprite.frame = 0;
                 }
             }
-        }, 0, 1000L);
+        }, 0, periodo);
     }
     
 }

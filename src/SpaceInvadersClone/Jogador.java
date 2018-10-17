@@ -27,10 +27,5 @@ public class Jogador extends Personagem {
     public void mover() {
         this.x += velX;
     }
-
-    @Override
-    public void animacao() {
-        System.out.println("teste");
-    }
     
 }
