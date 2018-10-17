@@ -8,6 +8,5 @@ public abstract class Personagem extends Sprite {
     
     public abstract void atirar();    
     public abstract void mover();
-    public abstract void animacao();
     
 }

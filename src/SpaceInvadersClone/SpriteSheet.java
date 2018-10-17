@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 
-public class SpriteSheet extends JLabel {
+public abstract class SpriteSheet extends JLabel {
 
     String imagem;
     int largura;
@@ -66,5 +66,7 @@ public class SpriteSheet extends JLabel {
         this.setLocation(x, y);
         g.drawImage(sprites[frame], 0, 0, this);
     }
+
+    public abstract void animacao();
 
 }
