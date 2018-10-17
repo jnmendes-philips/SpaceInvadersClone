@@ -1,5 +1,6 @@
 package SpaceInvadersClone;
 
+import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.logging.Level;
@@ -62,8 +63,7 @@ public class Jogo extends JPanel implements Runnable {
     }
 
     private void render() {
-        campo.repaint();
-        System.out.println(campo.jogador.x);
+        this.repaint();
         //System.out.println("FPS " + mediaQuadros);
     }
 

@@ -38,7 +38,7 @@ public class SpriteSheet extends JLabel {
 
     private void init() {
         try {
-            spriteSheet = ImageIO.read(new File(getClass().getResource("/Resources/"+ imagem +".png").getFile()));
+            spriteSheet = ImageIO.read(new File(getClass().getResource("/Resources/" + imagem + ".png").getFile()));
         } catch (IOException ex) {
             Logger.getLogger(SpriteSheet.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -49,10 +49,10 @@ public class SpriteSheet extends JLabel {
         for (int i = 0; i < linhas; i++) {
             for (int j = 0; j < colunas; j++) {
                 sprites[(i * colunas) + j] = spriteSheet.getSubimage(
-                        j * (largura/colunas),
-                        i * (altura/linhas),
-                        largura/colunas,
-                        altura/linhas
+                        j * (largura / colunas),
+                        i * (altura / linhas),
+                        largura / colunas,
+                        altura / linhas
                 );
             }
         }
@@ -61,10 +61,8 @@ public class SpriteSheet extends JLabel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        for (int i = 0; i < sprites.length; i++) {
-            this.setLocation(x, y);
-            g.drawImage(sprites[i], 0, 0, this);
-        }
+        this.setLocation(x, y);
+        g.drawImage(sprites[0], 0, 0, this);
     }
-    
+
 }
