@@ -3,6 +3,8 @@ package SpaceInvadersClone;
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
@@ -10,7 +12,7 @@ import javax.swing.JPanel;
 public class Jogo extends JPanel implements Runnable {
 
     SpaceInvadersClone tela;
-    
+
     Thread gameLoop;
 
     Placar placar;
@@ -26,7 +28,7 @@ public class Jogo extends JPanel implements Runnable {
 
     int contFrame;
     int contFrameMaximo;
-    
+
     boolean running;
 
     public Jogo(SpaceInvadersClone tela) {
@@ -50,9 +52,6 @@ public class Jogo extends JPanel implements Runnable {
         contFrameMaximo = 60;
         tempoTotal = 0;
         running = true;
-        campo.inimigo1.animacao(1000L);
-        campo.inimigo2.animacao(1000L);
-        campo.inimigo3.animacao(1000L);
     }
 
     private void colocarComponentes() {
@@ -63,6 +62,33 @@ public class Jogo extends JPanel implements Runnable {
 
     private void update() {
         campo.jogador.mover();
+        animacoes();
+    }
+
+    private void animacoes() {
+        for (Inimigo inimigo : campo.inimigos) {
+            /*
+                é possível alterar a frequencia em que as animações 
+                trocam de frame apenas alterando o parametro frequencia
+            */
+            frequenciaTrocaFrame(15, inimigo);
+        }
+    }
+
+    /**
+     * 
+     * @param frequencia precisa ser entre 0 e 59
+     * @param sprite 
+     */
+    private void frequenciaTrocaFrame(int frequencia, Sprite sprite) {
+        for (int i = 1; i <= frequencia; i++) {
+            sprite.animacao(periodoTrocaFrame((59/frequencia)*i), tempoTotal);
+        }
+    }
+
+    // frames vao de 0 a 59 a cada segundo
+    private int periodoTrocaFrame(int frame) {
+        return 16 * frame;
     }
 
     private void render() {
@@ -115,7 +141,7 @@ public class Jogo extends JPanel implements Runnable {
                     campo.jogador.velX = 0;
                 }
             }
-            
+
         });
     }
 
