@@ -32,7 +32,7 @@ public class Placar extends JPanel {
         pontosJogador1 = new LabelBit(this, "0000", 28, (this.getWidth()-80)-84-60, -10);
         pontosJogador1.atualizarLocal((this.getWidth()-80)-pontuacaoJogador1.getWidth(), -10);
         pontosMaior = new LabelBit(this, "0000", 28, 0, -10);
-        pontosJogador2 = new LabelBit(this, "0000", 28, -(this.getWidth()-80)+84+60, -10);
+        pontosJogador2 = new LabelBit(this, "", 28, -(this.getWidth()-80)+84+60, -10);
         pontosJogador2.atualizarLocal(-(this.getWidth()-80)+pontuacaoJogador2.getWidth(), -10);
     }
     

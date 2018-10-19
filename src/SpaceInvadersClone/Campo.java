@@ -21,9 +21,13 @@ public class Campo extends JPanel {
     }
 
     private void init() {
-        inimigos.add(new Inimigo("inimigo1", 100, 100, 50, 29, 1, 2));
-        inimigos.add(new Inimigo("inimigo2", 100, 200, 68, 29, 1, 2));
-        inimigos.add(new Inimigo("inimigo3", 100, 300, 72, 29, 1, 2));
+        for (int i = 1; i < 12; i++) {
+            inimigos.add(new Inimigo("inimigo1", 50 * i, 100, 50, 29, 1, 2));
+            inimigos.add(new Inimigo("inimigo2", 50 * i, 150, 68, 29, 1, 2));
+            inimigos.add(new Inimigo("inimigo2", 50 * i, 200, 68, 29, 1, 2));
+            inimigos.add(new Inimigo("inimigo3", 50 * i, 250, 72, 29, 1, 2));
+            inimigos.add(new Inimigo("inimigo3", 50 * i, 300, 72, 29, 1, 2));
+        }
         barreiras[0] = new Barreira("barreira", 100, 500, 66, 56, 1, 1);
         barreiras[1] = new Barreira("barreira", 100+65+60, 500, 66, 56, 1, 1);
         barreiras[2] = new Barreira("barreira", this.getWidth()-100-65-60-60, 500, 66, 56, 1, 1);
