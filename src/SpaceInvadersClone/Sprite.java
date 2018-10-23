@@ -7,7 +7,7 @@ public class Sprite extends SpriteSheet {
     }
 
     @Override
-    public void animacao(int periodo, double tempoTotal) {
+    public void animacao(double periodo, double tempoTotal) {
         if (tempoTotal == periodo) {
             if (this.frame < this.sprites.length - 1) {
                 this.frame++;

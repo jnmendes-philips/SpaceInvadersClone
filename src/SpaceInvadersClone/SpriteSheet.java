@@ -67,6 +67,6 @@ public abstract class SpriteSheet extends JLabel {
         g.drawImage(sprites[frame], 0, 0, this);
     }
 
-    public abstract void animacao(int periodo, double tempoTotal);
+    public abstract void animacao(double periodo, double tempoTotal);
 
 }

@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 public class Jogo extends JPanel implements Runnable {
 
     SpaceInvadersClone tela;
-    
+
     Placar placar;
     Campo campo;
     Info info;
@@ -20,6 +20,7 @@ public class Jogo extends JPanel implements Runnable {
     double tempoInicial;
     double tempoExecucao;
     double tempoTotal;
+    double contTempo;
 
     int contFrame;
     int contFrameMaximo;
@@ -41,6 +42,7 @@ public class Jogo extends JPanel implements Runnable {
         placar = new Placar(this);
         campo = new Campo(this);
         info = new Info(this);
+        contTempo = 0;
         contFrame = 0;
         contFrameMaximo = 60;
         tempoTotal = 0;
@@ -59,30 +61,35 @@ public class Jogo extends JPanel implements Runnable {
     }
 
     private void animacoes() {
+        //System.out.println(tempoTotal);
         for (Inimigo inimigo : campo.inimigos) {
             /*
                 é possível alterar a frequencia em que as animações 
                 trocam de frame apenas alterando o parametro frequencia
              */
-            
+            frequenciaTrocaFrame(5, inimigo);
         }
-        frequenciaTrocaFrame(10, campo.inimigos.get(0));
     }
 
     /**
      *
      * @param frequencia precisa ser entre 0 e 59
-     * @param sprite
      */
     private void frequenciaTrocaFrame(int frequencia, Sprite sprite) {
+        int j;
         for (int i = 1; i <= frequencia; i++) {
-            sprite.animacao(periodoTrocaFrame((59 / frequencia) * i), tempoTotal);
+            if (i == frequencia) {
+                j = 59;
+            } else {
+                j = 60;
+            }
+            sprite.animacao(periodoTrocaFrame(((double)j / frequencia) * i), contTempo);
         }
     }
 
     // frames vao de 0 a 59 a cada segundo
-    private int periodoTrocaFrame(int frame) {
-        return 16 * frame;
+    private double periodoTrocaFrame(double frame) {
+        return TAXA_ATUALIZACAO * frame;
     }
 
     private void render() {
@@ -103,11 +110,13 @@ public class Jogo extends JPanel implements Runnable {
                 Logger.getLogger(Jogo.class.getName()).log(Level.SEVERE, null, ex);
             }
             tempoTotal += System.currentTimeMillis() - tempoInicial;
+            contTempo += TAXA_ATUALIZACAO;
             contFrame++;
             if (contFrame == contFrameMaximo) {
                 mediaQuadros = 1000 / ((tempoTotal / contFrame));
                 contFrame = 0;
                 tempoTotal = 0;
+                contTempo = 0;
             }
         }
     }
@@ -129,7 +138,24 @@ public class Jogo extends JPanel implements Runnable {
 
             @Override
             public void keyReleased(KeyEvent ke) {
-                if (ke.getKeyCode() == KeyEvent.VK_RIGHT) {
+                if (ke.getKeyCode() == KeyEvent.VK_RIGHT || ke.getKeyCode() == KeyEvent.VK_ALT) {
+                    /*
+                        esse ou serve para evitar um bug em que se o jogador
+                        apertasse e soltasse a tecla alt enquanto andando
+                        quando fosse solta a tecla de andar o personagem
+                        continuaria andando infinitamente.
+                        Em verdade, se for pressionada a tecla alt,
+                        e então apertado para cima ou para baixo,
+                        é exibida as opções da janela, padrão do windows.
+                        Agora o jogador não fica andando infinitamente, porém,
+                        ele fica parado no mapa. O mais certo aqui seria
+                        ativar um pause game enquanto ele estiver com a tecla
+                        alt apertada. Até lá serve esse tapa buraco.
+                        Para desenvolver essa pause game, acredito que precise
+                        apenas exibir uma nova JPanel em cima das outras.
+                        E dar stop da thread enquanto o jogador não apertar
+                        alt de novo.
+                    */
                     campo.jogador.velX = 0;
                 } else if (ke.getKeyCode() == KeyEvent.VK_LEFT) {
                     campo.jogador.velX = 0;
