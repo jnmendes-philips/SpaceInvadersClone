@@ -27,6 +27,7 @@ public class SpaceInvadersClone extends JFrame {
         this.moveFrame();
         init();
         colocarComponentes();
+        jogo.run();
     }
 
     private void init() {

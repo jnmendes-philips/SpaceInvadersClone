@@ -1,10 +1,7 @@
 package SpaceInvadersClone;
 
-import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
@@ -12,9 +9,7 @@ import javax.swing.JPanel;
 public class Jogo extends JPanel implements Runnable {
 
     SpaceInvadersClone tela;
-
-    Thread gameLoop;
-
+    
     Placar placar;
     Campo campo;
     Info info;
@@ -40,11 +35,9 @@ public class Jogo extends JPanel implements Runnable {
         tela.setVisible(true);
         colocarComponentes();
         handleEvents();
-        gameLoop.start();
     }
 
     private void init() {
-        gameLoop = new Thread(this, "Game Loop");
         placar = new Placar(this);
         campo = new Campo(this);
         info = new Info(this);
@@ -70,19 +63,20 @@ public class Jogo extends JPanel implements Runnable {
             /*
                 é possível alterar a frequencia em que as animações 
                 trocam de frame apenas alterando o parametro frequencia
-            */
-            frequenciaTrocaFrame(15, inimigo);
+             */
+            
         }
+        frequenciaTrocaFrame(10, campo.inimigos.get(0));
     }
 
     /**
-     * 
+     *
      * @param frequencia precisa ser entre 0 e 59
-     * @param sprite 
+     * @param sprite
      */
     private void frequenciaTrocaFrame(int frequencia, Sprite sprite) {
         for (int i = 1; i <= frequencia; i++) {
-            sprite.animacao(periodoTrocaFrame((59/frequencia)*i), tempoTotal);
+            sprite.animacao(periodoTrocaFrame((59 / frequencia) * i), tempoTotal);
         }
     }
 
