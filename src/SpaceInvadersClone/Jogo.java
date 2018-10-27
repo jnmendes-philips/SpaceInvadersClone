@@ -57,7 +57,48 @@ public class Jogo extends JPanel implements Runnable {
 
     private void update() {
         campo.jogador.mover();
+        movimentoInimigos(5);
         animacoes();
+    }
+
+    private void movimentoInimigos(int velX) {
+        if (campo.fileira1[0].x == campo.fileira2[0].x
+                && campo.fileira2[0].x == campo.fileira3[0].x
+                && campo.fileira3[0].x == campo.fileira4[0].x
+                && campo.fileira4[0].x == campo.fileira5[0].x) {
+            if (contTempo == 480 || contTempo == 944) {
+                for (int i = 0; i < campo.fileira1.length; i++) {
+                    Inimigo inimigo = campo.fileira1[i];
+                    System.out.println(contTempo);
+                    inimigo.x += velX;
+                }
+            }
+        } else if (campo.fileira2[0].x == campo.fileira3[0].x
+                && campo.fileira3[0].x == campo.fileira4[0].x
+                && campo.fileira4[0].x == campo.fileira5[0].x) {
+            if (contTempo == 480 || contTempo == 944) {
+                for (int i = 0; i < campo.fileira2.length; i++) {
+                    Inimigo inimigo = campo.fileira2[i];
+                    inimigo.x += velX;
+                }
+            }
+        } else if (campo.fileira3[0].x == campo.fileira4[0].x
+                && campo.fileira4[0].x == campo.fileira5[0].x) {
+            for (int i = 0; i < campo.fileira3.length; i++) {
+                Inimigo inimigo = campo.fileira3[i];
+                inimigo.x += velX;
+            }
+        } else if (campo.fileira4[0].x == campo.fileira5[0].x) {
+            for (int i = 0; i < campo.fileira4.length; i++) {
+                Inimigo inimigo = campo.fileira4[i];
+                inimigo.x += velX;
+            }
+        } else {
+            for (int i = 0; i < campo.fileira5.length; i++) {
+                Inimigo inimigo = campo.fileira5[i];
+                inimigo.x += velX;
+            }
+        }
     }
 
     private void animacoes() {
@@ -67,7 +108,7 @@ public class Jogo extends JPanel implements Runnable {
                 é possível alterar a frequencia em que as animações 
                 trocam de frame apenas alterando o parametro frequencia
              */
-            frequenciaTrocaFrame(5, inimigo);
+            frequenciaTrocaFrame(2, inimigo);
         }
     }
 
@@ -83,7 +124,7 @@ public class Jogo extends JPanel implements Runnable {
             } else {
                 j = 60;
             }
-            sprite.animacao(periodoTrocaFrame(((double)j / frequencia) * i), contTempo);
+            sprite.animacao(periodoTrocaFrame(((double) j / frequencia) * i), contTempo);
         }
     }
 
@@ -155,7 +196,7 @@ public class Jogo extends JPanel implements Runnable {
                         apenas exibir uma nova JPanel em cima das outras.
                         E dar stop da thread enquanto o jogador não apertar
                         alt de novo.
-                    */
+                     */
                     campo.jogador.velX = 0;
                 } else if (ke.getKeyCode() == KeyEvent.VK_LEFT) {
                     campo.jogador.velX = 0;
