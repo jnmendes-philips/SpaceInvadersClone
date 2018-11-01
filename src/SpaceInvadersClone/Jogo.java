@@ -26,6 +26,8 @@ public class Jogo extends JPanel implements Runnable {
     int contFrameMaximo;
 
     boolean running;
+    
+    int i = 0;
 
     public Jogo(SpaceInvadersClone tela) {
         this.tela = tela;
@@ -57,25 +59,29 @@ public class Jogo extends JPanel implements Runnable {
 
     private void update() {
         campo.jogador.mover();
-        animacoes();
+        animacoes(10);
     }
 
-    private void movimentoInimigos(int velX, Inimigo inimigo) {
-        if (contTempo == 480 || contTempo == 944) {
+    private void movimentoInimigos(int velX, Inimigo inimigo, int periodo) {
+        if (contTempo == frequencia(periodo)) {
             inimigo.x += velX;
         }
     }
 
-    private void animacoes() {
+    private void animacoes(int periodo) {
         //System.out.println(tempoTotal);
-        for (int i = 0; i < campo.fileira1.length; i++) {
+        if (contTempo == frequencia(periodo)) {
+            if (i == campo.fileira1.length) {
+                i = 0;
+            }
             Inimigo inimigo = campo.fileira1[i];
             /*
                 é possível alterar a frequencia em que as animações 
                 trocam de frame apenas alterando o parametro frequencia
              */
-            frequenciaTrocaFrame(2, inimigo);
-            movimentoInimigos(5, inimigo);
+            frequenciaTrocaFrame(periodo, inimigo);
+            movimentoInimigos(7, inimigo, periodo);
+            ++i;
         }
     }
 
@@ -91,12 +97,27 @@ public class Jogo extends JPanel implements Runnable {
             } else {
                 j = 60;
             }
-            sprite.animacao(periodoTrocaFrame(((double) j / frequencia) * i), contTempo);
+            sprite.animacao(periodo(((double) j / frequencia) * i), contTempo);
         }
+    }
+    
+    private double frequencia(int frequencia) {
+        int j;
+        for (int i = 1; i <= frequencia; i++) {
+            if (i == frequencia) {
+                j = 59;
+            } else {
+                j = 60;
+            }
+            if (periodo(((double) j / frequencia) * i) == contTempo) {
+                return periodo(((double) j / frequencia) * i);
+            }
+        }
+        return -1;
     }
 
     // frames vao de 0 a 59 a cada segundo
-    private double periodoTrocaFrame(double frame) {
+    private double periodo(double frame) {
         return TAXA_ATUALIZACAO * frame;
     }
 
