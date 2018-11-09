@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 public class Campo extends JPanel {
 
     ArrayList<Inimigo> inimigos = new ArrayList<>();
+    ArrayList<Tiro> tiros = new ArrayList<>();
     Inimigo[] fileira1 = new Inimigo[11];
     Inimigo[] fileira2 = new Inimigo[11];
     Inimigo[] fileira3 = new Inimigo[11];

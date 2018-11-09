@@ -19,8 +19,8 @@ public class Jogador extends Personagem {
     }
     
     @Override
-    public void atirar() {
-        
+    public Tiro atirar() {
+        return (new Tiro("Tiro", this.x + 15, this.y, 5 , 16, 1, 1, true));
     }
 
     @Override

@@ -6,7 +6,7 @@ public abstract class Personagem extends Sprite {
         super(imagem, x, y, largura, altura, linhas, colunas);
     }
     
-    public abstract void atirar();    
+    public abstract Tiro atirar();    
     public abstract void mover();
     
 }

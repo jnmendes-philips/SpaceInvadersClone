@@ -31,7 +31,6 @@ public class Jogo extends JPanel implements Runnable {
     int i = 0;
 
     public Jogo(SpaceInvadersClone tela) {
-        
         this.tela = tela;
         this.setLayout(null);
         this.setSize(tela.getSize());
@@ -51,14 +50,12 @@ public class Jogo extends JPanel implements Runnable {
         contFrameMaximo = 60;
         tempoTotal = 0;
         running = true;
-        
     }
 
     private void colocarComponentes() {
         this.add(placar);
         this.add(campo);
         this.add(info);
-        
     }
 
     private void update() {
@@ -118,6 +115,7 @@ public class Jogo extends JPanel implements Runnable {
 
     public void addPonto(int q) {
         placar.score += q;
+        System.out.println(placar.score);
         String score2 = Integer.toString(placar.score);
         while (score2.length() < 4) {
             score2 = "0" + score2;
@@ -203,6 +201,7 @@ public class Jogo extends JPanel implements Runnable {
                 }
             }
         }
+        //System.out.println("FPS " + mediaQuadros);
     }
 
     @Override
@@ -281,3 +280,4 @@ public class Jogo extends JPanel implements Runnable {
     }
 
 }
+

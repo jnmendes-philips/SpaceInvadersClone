@@ -7,7 +7,9 @@ public class Inimigo extends Personagem {
     }
 
     @Override
-    public void atirar() {
+    public Tiro atirar() {
+        
+        return (new Tiro("tiro", (this.x + (largura /2)), this.y, 10 , 10, 1, 1, false));
     }
 
     @Override
