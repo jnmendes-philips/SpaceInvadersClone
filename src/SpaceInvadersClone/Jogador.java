@@ -1,24 +1,31 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package SpaceInvadersClone;
 
-/**
- *
- * @author aluno
- */
 public class Jogador extends Personagem {
 
+    int numVidas;
+    int velX;
+
+    public Jogador(String imagem, int x, int y, int largura, int altura, int linhas, int colunas) {
+        super(imagem, x, y, largura, altura, linhas, colunas);
+        init();
+    }
+    
+    private void init() {
+        velX = 0;
+    }
+
+    public void setNumVidas(int numVidas) {
+        this.numVidas = numVidas;
+    }
+    
     @Override
-    public void atirar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Tiro atirar() {
+        return (new Tiro("Tiro", this.x + 15, this.y, 5 , 16, 1, 1, true));
     }
 
     @Override
     public void mover() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.x += velX;
     }
     
 }

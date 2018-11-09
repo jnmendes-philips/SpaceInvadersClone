@@ -1,14 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package SpaceInvadersClone;
 
-/**
- *
- * @author aluno
- */
-public abstract class Personagem implements Interacoes {
+public abstract class Personagem extends Sprite {
+
+    public Personagem(String imagem, int x, int y, int largura, int altura, int linhas, int colunas) {
+        super(imagem, x, y, largura, altura, linhas, colunas);
+    }
+    
+    public abstract Tiro atirar();    
+    public abstract void mover();
     
 }

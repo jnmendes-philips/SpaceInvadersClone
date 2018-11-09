@@ -1,14 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package SpaceInvadersClone;
 
-/**
- *
- * @author aluno
- */
-public class Barreira {
-    
+public class Barreira extends Sprite {
+
+    public Barreira(String imagem, int x, int y, int largura, int altura, int linhas, int colunas) {
+        super(imagem, x, y, largura, altura, linhas, colunas);
+    }
+
 }

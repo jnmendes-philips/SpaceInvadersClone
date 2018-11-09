@@ -12,7 +12,7 @@ public class FonteBit {
     public Font fonte(float tam) {
         Font fonte = null;
         try {
-            fonte = Font.createFont(Font.TRUETYPE_FONT, new File(System.getProperty("user.dir") + System.getProperty("file.separator") + "8bitoperator.ttf"));
+            fonte = Font.createFont(Font.TRUETYPE_FONT, new File(getClass().getResource("/Resources/8bitoperator.ttf").getFile()));
             fonte = fonte.deriveFont(fonte.getSize() * tam);
         } catch (FontFormatException ex) {
             Logger.getLogger(FonteBit.class.getName()).log(Level.SEVERE, null, ex);
