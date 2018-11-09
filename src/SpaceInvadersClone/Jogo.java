@@ -122,9 +122,13 @@ public class Jogo extends JPanel implements Runnable {
                     }
                     
                 } else {
-                    //colisão da bala do inimigo aqui
+                    //colisão da bala do inimigo aqui(esta bugada vo arrumar)
                     if ((((tiro.x + (tiro.largura / 2)) >= campo.jogador.x) && ((tiro.x + (tiro.largura / 2)) <= (campo.jogador.x + campo.jogador.largura))) && (tiro.y < campo.jogador.y + campo.jogador.altura)) {
                         campo.jogador.numVidas -= 1;
+                        if(campo.jogador.numVidas < 0){
+                            campo.jogador.numVidas = 0;
+                        }
+                        info.qtdVidas.setText(Integer.toString(campo.jogador.numVidas));
                     }
                     if(tiro.y > 800){
                         tiros.add(tiro);
