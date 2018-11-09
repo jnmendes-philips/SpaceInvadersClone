@@ -31,7 +31,7 @@ public class Jogo extends JPanel implements Runnable {
     int i = 0;
 
     public Jogo(SpaceInvadersClone tela) {
-        
+
         this.tela = tela;
         this.setLayout(null);
         this.setSize(tela.getSize());
@@ -51,14 +51,14 @@ public class Jogo extends JPanel implements Runnable {
         contFrameMaximo = 60;
         tempoTotal = 0;
         running = true;
-        
+
     }
 
     private void colocarComponentes() {
         this.add(placar);
         this.add(campo);
         this.add(info);
-        
+
     }
 
     private void update() {
@@ -86,20 +86,41 @@ public class Jogo extends JPanel implements Runnable {
                         tiros.add(tiro);
                     }
 
-                    if (((((tiro.x + (tiro.largura) >= ini.x) && (tiro.x + (tiro.largura) < ini.x + ini.largura))) || ((tiro.x + (tiro.largura / 2) >= ini.x) && (tiro.x + (tiro.largura / 2) < ini.x + ini.largura)) || ((tiro.x >= ini.x) && (tiro.x < ini.x + ini.largura))) && (tiro.y <= ini.y)) {
-                        tiros.add(tiro);
-                        inimigos.add(ini);
+                    if (ini.imagem.equals("inimigo1")) {
+                        if ((((tiro.x + (tiro.largura / 2) >= ini.x) && (tiro.x + (tiro.largura / 2) < ini.x + 25))) && (tiro.y <= ini.y)) {
+                            tiros.add(tiro);
+                            inimigos.add(ini);
+                            break;
+                        }
+                    } else if (ini.imagem.equals("inimigo2")) {
+                        if ((((tiro.x + (tiro.largura / 2) >= ini.x) && (tiro.x + (tiro.largura / 2) < ini.x + 34))) && (tiro.y <= ini.y)) {
+                            tiros.add(tiro);
+                            inimigos.add(ini);
+                            break;
+                        }
+                    }else if (ini.imagem.equals("inimigo3")) {
+                        if ((((tiro.x + (tiro.largura / 2) >= ini.x) && (tiro.x + (tiro.largura / 2) < ini.x + 36))) && (tiro.y <= ini.y)) {
+                            tiros.add(tiro);
+                            inimigos.add(ini);
+                            break;
+                        }
                     }
+
                 } else {
                     //colisão da bala do inimigo aqui
                 }
-
             }
         }
+
+        for (Tiro tiro : tiros) {
+            campo.tiros.remove(tiro);
+            campo.remove(tiro);
+
+        }
+
         for (Inimigo inimigo : inimigos) {
             campo.inimigos.remove(inimigo);
             campo.remove(inimigo);
-
             if (inimigo.imagem == "inimigo1") {
                 addPonto(30);
             } else if (inimigo.imagem == "inimigo2") {
@@ -107,11 +128,6 @@ public class Jogo extends JPanel implements Runnable {
             } else {
                 addPonto(10);
             }
-
-        }
-        for (Tiro tiro : tiros) {
-            campo.tiros.remove(tiro);
-            campo.remove(tiro);
         }
 
     }
