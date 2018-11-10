@@ -74,7 +74,7 @@ public class Jogo extends JPanel implements Runnable {
         for(Inimigo inimigo : campo.inimigos){
             if(inimigo.stack <= 0){
                 campo.tiros.add(inimigo.atirar());
-                inimigo.stack = new Random().nextInt(100);
+                inimigo.stack = 500;
             }
             inimigo.stack -= 1;
         }
