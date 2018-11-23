@@ -9,13 +9,13 @@ import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 public class Jogo extends JPanel implements Runnable {
-    
+
     SpaceInvadersClone tela;
-    
+
     Placar placar;
     Campo campo;
     Info info;
-    
+
     final int QUADROS_POR_SEGUNDO = 60;
     final double TAXA_ATUALIZACAO = 1000 / QUADROS_POR_SEGUNDO;
     double mediaQuadros;
@@ -26,13 +26,13 @@ public class Jogo extends JPanel implements Runnable {
     int stack = 60;
     int contFrame;
     int contFrameMaximo;
-    
+
     boolean running;
-    
+
     int i = 0;
-    
+
     public Jogo(SpaceInvadersClone tela) {
-        
+
         this.tela = tela;
         this.setLayout(null);
         this.setSize(tela.getSize());
@@ -42,7 +42,7 @@ public class Jogo extends JPanel implements Runnable {
         colocarComponentes();
         handleEvents();
     }
-    
+
     private void init() {
         placar = new Placar(this);
         campo = new Campo(this);
@@ -52,36 +52,41 @@ public class Jogo extends JPanel implements Runnable {
         contFrameMaximo = 60;
         tempoTotal = 0;
         running = true;
-        
+
     }
-    
+
     private void colocarComponentes() {
         this.add(placar);
         this.add(campo);
         this.add(info);
-        
+
     }
-    
+
     private void update() {
         campo.jogador.mover();
         animacoes(10);
         colisoes();
         saraiva();
     }
-    
-    
-    private void saraiva(){
-        for(Inimigo inimigo : campo.inimigos){
-            if(inimigo.stack <= 0){
-                campo.tiros.add(inimigo.atirar());
-                inimigo.stack = 500;
+
+    private void saraiva() {
+        for (Inimigo inimigo : campo.inimigos) {
+            boolean jungleJingle = true;
+            for (Inimigo inimigo2 : campo.inimigos) {
+                if((((inimigo.x + (inimigo.largura / 2)) > inimigo2.x) && ((inimigo.x + (inimigo.largura / 2)) < inimigo2.x + inimigo2.largura)) && (inimigo.y < inimigo2.y)){
+                    jungleJingle = false;
+                }
+            }
+            if (jungleJingle) {
+                if (inimigo.stack <= 0) {
+                    campo.tiros.add(inimigo.atirar());
+                    inimigo.stack = 200;
+                }
             }
             inimigo.stack -= 1;
         }
     }
-    
-    
-    
+
     private void colisoes() {
 
         //colisão player
@@ -100,7 +105,7 @@ public class Jogo extends JPanel implements Runnable {
                     if (tiro.y < 0) {
                         tiros.add(tiro);
                     }
-                    
+
                     if (ini.imagem.equals("inimigo1")) {
                         if ((((tiro.x + (tiro.largura / 2) >= ini.x) && (tiro.x + (tiro.largura / 2) < ini.x + 25))) && (tiro.y <= ini.y)) {
                             tiros.add(tiro);
@@ -120,30 +125,30 @@ public class Jogo extends JPanel implements Runnable {
                             break;
                         }
                     }
-                    
+
                 } else {
                     //colisão da bala do inimigo aqui(esta bugada vo arrumar)
                     if ((((tiro.x + (tiro.largura / 2)) >= campo.jogador.x) && ((tiro.x + (tiro.largura / 2)) <= (campo.jogador.x + campo.jogador.largura))) && (tiro.y > campo.jogador.y + campo.jogador.altura)) {
                         campo.jogador.numVidas -= 1;
-                        if(campo.jogador.numVidas < 0){
+                        if (campo.jogador.numVidas < 0) {
                             campo.jogador.numVidas = 0;
                             //avento derrota
                         }
                         info.qtdVidas.setText(Integer.toString(campo.jogador.numVidas));
                     }
-                    if(tiro.y > 800){
+                    if (tiro.y > 800) {
                         tiros.add(tiro);
                     }
                 }
             }
         }
-        
+
         for (Tiro tiro : tiros) {
             campo.tiros.remove(tiro);
             campo.remove(tiro);
-            
+
         }
-        
+
         for (Inimigo inimigo : inimigos) {
             campo.inimigos.remove(inimigo);
             campo.remove(inimigo);
@@ -155,9 +160,9 @@ public class Jogo extends JPanel implements Runnable {
                 addPonto(10);
             }
         }
-        
+
     }
-    
+
     public void addPonto(int q) {
         placar.score += q;
         String score2 = Integer.toString(placar.score);
@@ -166,13 +171,13 @@ public class Jogo extends JPanel implements Runnable {
         }
         placar.pontosJogador1.setText(score2);
     }
-    
+
     private void movimentoInimigos(int velX, Inimigo inimigo, int periodo) {
         if (contTempo == frequencia(periodo)) {
             inimigo.x += velX;
         }
     }
-    
+
     private void animacoes(int periodo) {
         //System.out.println(tempoTotal);
         if (contTempo == frequencia(periodo)) {
@@ -205,7 +210,7 @@ public class Jogo extends JPanel implements Runnable {
             sprite.animacao(periodo(((double) j / frequencia) * i), contTempo);
         }
     }
-    
+
     private double frequencia(int frequencia) {
         int j;
         for (int i = 1; i <= frequencia; i++) {
@@ -225,7 +230,7 @@ public class Jogo extends JPanel implements Runnable {
     private double periodo(double frame) {
         return TAXA_ATUALIZACAO * frame;
     }
-    
+
     private void render() {
         this.repaint();
         stack -= 1;
@@ -246,7 +251,7 @@ public class Jogo extends JPanel implements Runnable {
             }
         }
     }
-    
+
     @Override
     public void run() {
         while (running) {
@@ -270,7 +275,7 @@ public class Jogo extends JPanel implements Runnable {
             }
         }
     }
-    
+
     private void handleEvents() {
         tela.addKeyListener(new KeyAdapter() {
             @Override
@@ -284,7 +289,7 @@ public class Jogo extends JPanel implements Runnable {
                         campo.tiros.add(campo.jogador.atirar());
                         stack = 60;
                     }
-                    
+
                 }
                 if (ke.getKeyCode() == KeyEvent.VK_RIGHT) {
                     campo.jogador.velX = 5;
@@ -292,7 +297,7 @@ public class Jogo extends JPanel implements Runnable {
                     campo.jogador.velX = -5;
                 }
             }
-            
+
             @Override
             public void keyReleased(KeyEvent ke) {
                 if (ke.getKeyCode() == KeyEvent.VK_RIGHT || ke.getKeyCode() == KeyEvent.VK_ALT) {
@@ -318,8 +323,8 @@ public class Jogo extends JPanel implements Runnable {
                     campo.jogador.velX = 0;
                 }
             }
-            
+
         });
     }
-    
+
 }
