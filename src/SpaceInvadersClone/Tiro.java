@@ -11,6 +11,7 @@ package SpaceInvadersClone;
  */
 public class Tiro extends Sprite{
     boolean type;
+    boolean notUsed = true;
     public Tiro(String imagem, int x, int y, int largura, int altura, int linhas, int colunas, boolean type) {
         super(imagem, x, y, largura, altura, linhas, colunas);
         this.type = type;
