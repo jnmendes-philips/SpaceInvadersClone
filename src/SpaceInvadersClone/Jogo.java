@@ -133,7 +133,17 @@ public class Jogo extends JPanel implements Runnable {
                     }
 
                 } else {
-                    //colisão da bala do inimigo aqui(esta bugada vo arrumar)
+                    for (Barreira barreira : campo.barreiras) {
+                        if(tiro.notUsed && ((tiro.y + tiro.altura > barreira.y) && (((tiro.x + (tiro.largura / 2)) > barreira.x) && ((tiro.x + (tiro.largura / 2)) < barreira.x + barreira.largura)))){
+                            tiros.add(tiro);
+                            tiro.notUsed = false;
+                            barreira.vidas -= 1;
+                            if(barreira.vidas <= 0){
+                                campo.remove(barreira);
+                            }
+                            break;
+                        }
+                    }
                     if (tiro.notUsed && ((((tiro.x + (tiro.largura / 2)) >= campo.jogador.x) && ((tiro.x + (tiro.largura / 2)) <= (campo.jogador.x + campo.jogador.largura))) && (tiro.y > campo.jogador.y + campo.jogador.altura))) {
                         campo.jogador.numVidas -= 1;
                         tiro.notUsed = false;
