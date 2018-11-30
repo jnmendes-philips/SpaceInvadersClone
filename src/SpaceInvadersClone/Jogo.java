@@ -8,8 +8,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -67,7 +65,6 @@ public class Jogo extends JPanel implements Runnable {
         this.add(placar);
         this.add(campo);
         this.add(info);
-
     }
 
     private void update() {
@@ -137,9 +134,12 @@ public class Jogo extends JPanel implements Runnable {
 
                 } else {
                     //colisão da bala do inimigo aqui(esta bugada vo arrumar)
-                    if ((((tiro.x + (tiro.largura / 2)) >= campo.jogador.x) && ((tiro.x + (tiro.largura / 2)) <= (campo.jogador.x + campo.jogador.largura))) && (tiro.y > campo.jogador.y + campo.jogador.altura)) {
+                    if (tiro.notUsed && ((((tiro.x + (tiro.largura / 2)) >= campo.jogador.x) && ((tiro.x + (tiro.largura / 2)) <= (campo.jogador.x + campo.jogador.largura))) && (tiro.y > campo.jogador.y + campo.jogador.altura))) {
                         campo.jogador.numVidas -= 1;
-                        if (campo.jogador.numVidas < 0) {
+                        tiro.notUsed = false;
+                        tiros.add(tiro);
+                        
+                        if (campo.jogador.numVidas <= 0) {
                             campo.jogador.numVidas = 0;
                             //avento derrota
                             String scoresSTR = "";
@@ -394,10 +394,8 @@ public class Jogo extends JPanel implements Runnable {
 }
 
 class Score {
-
     String name;
     String points;
-
     public Score(String name, String points) {
         this.name = name;
         this.points = points;
