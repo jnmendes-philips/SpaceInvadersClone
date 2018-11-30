@@ -2,14 +2,22 @@ package SpaceInvadersClone;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Jogo extends JPanel implements Runnable {
 
+    File save = new File(System.getProperty("user.dir") + File.separator + "save.data");
     SpaceInvadersClone tela;
 
     Placar placar;
@@ -73,14 +81,14 @@ public class Jogo extends JPanel implements Runnable {
         for (Inimigo inimigo : campo.inimigos) {
             boolean jungleJingle = true;
             for (Inimigo inimigo2 : campo.inimigos) {
-                if((((inimigo.x + (inimigo.largura / 2)) > inimigo2.x) && ((inimigo.x + (inimigo.largura / 2)) < inimigo2.x + inimigo2.largura)) && (inimigo.y < inimigo2.y)){
+                if ((((inimigo.x + (inimigo.largura / 2)) > inimigo2.x) && ((inimigo.x + (inimigo.largura / 2)) < inimigo2.x + inimigo2.largura)) && (inimigo.y < inimigo2.y)) {
                     jungleJingle = false;
                 }
             }
             if (jungleJingle) {
                 if (inimigo.stack <= 0) {
                     campo.tiros.add(inimigo.atirar());
-                    inimigo.stack = 200;
+                    inimigo.stack = 400;
                 }
             }
             inimigo.stack -= 1;
@@ -99,6 +107,7 @@ public class Jogo extends JPanel implements Runnable {
         ArrayList<Tiro> tiros = new ArrayList<>();
         ArrayList<Inimigo> inimigos = new ArrayList<>();
         for (Inimigo ini : campo.inimigos) {
+
             for (Tiro tiro : campo.tiros) {
                 if (tiro.type) {
                     //colisão da bala do player aqui
@@ -133,10 +142,29 @@ public class Jogo extends JPanel implements Runnable {
                         if (campo.jogador.numVidas < 0) {
                             campo.jogador.numVidas = 0;
                             //avento derrota
+                            String scoresSTR = "";
+
+                            try {
+                                //checkFile(save);
+                                ArrayList<Score> scores = gameLoad();
+                                String name = JOptionPane.showInputDialog("Game over:\n type your name");
+                                scores.add(new Score(name, String.valueOf(placar.score)));
+                                gameSave(scores);
+                                //mostra placares aqui
+                                for (Score score : scores) {
+                                    System.out.println(score.name);
+                                    System.out.println(score.points);
+                                }
+                                System.exit(0);
+                            } catch (FileNotFoundException ex) {
+                                System.out.println("Error: File \"save.data\' not found");
+                            } catch (IOException ex) {
+                                Logger.getLogger(Jogo.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         }
                         info.qtdVidas.setText(Integer.toString(campo.jogador.numVidas));
                     }
-                    if (tiro.y > 800) {
+                    if (tiro.y > 605) {
                         tiros.add(tiro);
                     }
                 }
@@ -325,6 +353,54 @@ public class Jogo extends JPanel implements Runnable {
             }
 
         });
+    }
+
+    public void checkFile(File file) throws IOException {
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+    }
+
+    public void gameSave(ArrayList<Score> scores) throws IOException {
+        FileWriter writer = new FileWriter(save);
+        for (Score score : scores) {
+            writer.write(score.name);
+            writer.write("%");
+            writer.write(score.points);
+            writer.write("%");
+        }
+        writer.flush();
+    }
+
+    public ArrayList<Score> gameLoad() throws FileNotFoundException, IOException {
+        ArrayList<Score> scores = new ArrayList<>();
+        FileReader reader = new FileReader(save);
+        String str = "";
+        for (int i = 0; i < save.length() - 1; i++) {
+            str = str + ((char)reader.read());
+        }
+        if (!str.isEmpty()) {
+            String[] strs = str.split("%");
+            for (int j = 0; j < strs.length - 1; j += 2) {
+                scores.add(new Score(strs[j], strs[j + 1]));
+            }
+            return scores;
+        } else {
+            return new ArrayList<Score>();
+        }
+
+    }
+
+}
+
+class Score {
+
+    String name;
+    String points;
+
+    public Score(String name, String points) {
+        this.name = name;
+        this.points = points;
     }
 
 }
