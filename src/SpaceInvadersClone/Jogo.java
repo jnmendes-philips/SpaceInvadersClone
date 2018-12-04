@@ -35,7 +35,11 @@ public class Jogo extends JPanel implements Runnable {
 
     boolean running;
 
-    int i = 0;
+    int contFileira1 = 0;
+    int contFileira2 = 0;
+    int contFileira3 = 0;
+    int contFileira4 = 0;
+    int contFileira5 = 0;
 
     public Jogo(SpaceInvadersClone tela) {
 
@@ -231,17 +235,57 @@ public class Jogo extends JPanel implements Runnable {
     private void animacoes(int periodo) {
         //System.out.println(tempoTotal);
         if (contTempo == frequencia(periodo)) {
-            if (i == campo.fileira1.length) {
-                i = 0;
+            if (contFileira1 == campo.fileira1.length) {
+                contFileira1 = 0;
             }
-            Inimigo inimigo = campo.fileira1[i];
+            if (contFileira2 == campo.fileira1.length) {
+                contFileira2 = 0;
+            }
+            if (contFileira3 == campo.fileira1.length) {
+                contFileira3 = 0;
+            }
+            if (contFileira4 == campo.fileira1.length) {
+                contFileira4 = 0;
+            }
+            if (contFileira5 == campo.fileira1.length) {
+                contFileira5 = 0;
+            }
+            Inimigo inimigoFileira1 = campo.fileira1[contFileira1];
+            Inimigo inimigoFileira2 = campo.fileira2[contFileira2];
+            Inimigo inimigoFileira3 = campo.fileira3[contFileira3];
+            Inimigo inimigoFileira4 = campo.fileira4[contFileira4];
+            Inimigo inimigoFileira5 = campo.fileira5[contFileira5];
             /*
                 é possível alterar a frequencia em que as animações 
                 trocam de frame apenas alterando o parametro frequencia
              */
-            frequenciaTrocaFrame(periodo, inimigo);
-            movimentoInimigos(7, inimigo, periodo);
-            ++i;
+
+            if (contFileira1 >= 0 && contFileira2 == 0 && contFileira3 == 0 && contFileira4 == 0 && contFileira5 == 0) {
+                frequenciaTrocaFrame(periodo, inimigoFileira1);
+                movimentoInimigos(7, inimigoFileira1, periodo);
+                ++contFileira1;
+            }
+            if (contFileira1 == 11 || contFileira2 != 0) {
+                frequenciaTrocaFrame(periodo, inimigoFileira2);
+                movimentoInimigos(7, inimigoFileira2, periodo);
+                ++contFileira2;
+            }
+            if (contFileira2 == 11 || contFileira3 != 0) {
+                frequenciaTrocaFrame(periodo, inimigoFileira3);
+                movimentoInimigos(7, inimigoFileira3, periodo);
+                ++contFileira3;
+            }
+            if (contFileira3 == 11 || contFileira4 != 0) {
+                frequenciaTrocaFrame(periodo, inimigoFileira4);
+                movimentoInimigos(7, inimigoFileira4, periodo);
+                ++contFileira4;
+            }
+            if (contFileira4 == 11 || contFileira5 != 0) {
+                frequenciaTrocaFrame(periodo, inimigoFileira5);
+                movimentoInimigos(7, inimigoFileira5, periodo);
+                ++contFileira5;
+            }
+            
         }
     }
 

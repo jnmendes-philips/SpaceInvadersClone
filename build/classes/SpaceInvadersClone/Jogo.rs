@@ -1,0 +1,3 @@
+SpaceInvadersClone.Score
+SpaceInvadersClone.score
+SpaceInvadersClone.Jogo
