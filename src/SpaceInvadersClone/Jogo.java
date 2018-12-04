@@ -107,11 +107,15 @@ public class Jogo extends JPanel implements Runnable {
 
             for (Tiro tiro : campo.tiros) {
                 for (Barreira barreira : campo.barreiras) {
-                    if((tiro.notUsed && (((tiro.x > barreira.x) && (tiro.x < barreira.x + barreira.largura)) && (tiro.y < barreira.y + barreira.altura)))){
-                            tiros.add(tiro);
-                            tiro.notUsed = false;     
+                    if (barreira.vidas <= 0) {
+                        campo.remove(barreira);
                     }
-                }       
+                    if ((barreira.vidas > 0) && ((tiro.notUsed && (((tiro.x > barreira.x) && (tiro.x < barreira.x + barreira.largura)) && (tiro.y < barreira.y + barreira.altura))))) {
+                        tiros.add(tiro);
+                        tiro.notUsed = false;
+                        barreira.vidas -= 1;
+                    }
+                }
                 if (tiro.type) {
                     //colisão da bala do player aqui
                     if (tiro.y < 0) {
@@ -140,22 +144,22 @@ public class Jogo extends JPanel implements Runnable {
 
                 } else {
                     for (Barreira barreira : campo.barreiras) {
-                        if(barreira.vidas <= 0){
-                                campo.remove(barreira);
+                        if (barreira.vidas <= 0) {
+                            campo.remove(barreira);
                         }
-                        if(barreira.vidas > 0 && (tiro.notUsed && ((tiro.y + tiro.altura > barreira.y) && (((tiro.x + (tiro.largura / 2)) > barreira.x) && ((tiro.x + (tiro.largura / 2)) < barreira.x + barreira.largura))))){
+                        if (barreira.vidas > 0 && (tiro.notUsed && ((tiro.y + tiro.altura > barreira.y) && (((tiro.x + (tiro.largura / 2)) > barreira.x) && ((tiro.x + (tiro.largura / 2)) < barreira.x + barreira.largura))))) {
                             tiros.add(tiro);
                             tiro.notUsed = false;
-                            barreira.vidas -= 1;       
+                            barreira.vidas -= 1;
                             break;
                         }
-                        
+
                     }
                     if (tiro.notUsed && ((((tiro.x + (tiro.largura / 2)) >= campo.jogador.x) && ((tiro.x + (tiro.largura / 2)) <= (campo.jogador.x + campo.jogador.largura))) && (tiro.y > campo.jogador.y + campo.jogador.altura))) {
                         campo.jogador.numVidas -= 1;
                         tiro.notUsed = false;
                         tiros.add(tiro);
-                        
+
                         if (campo.jogador.numVidas <= 0) {
                             campo.jogador.numVidas = 0;
                             //avento derrota
@@ -185,8 +189,7 @@ public class Jogo extends JPanel implements Runnable {
                         tiros.add(tiro);
                     }
                 }
-                
-                
+
             }
         }
 
@@ -297,7 +300,7 @@ public class Jogo extends JPanel implements Runnable {
                 }
             }
         }
-        
+
         for (Tiro tiro : this.tiros) {
             campo.tiros.add(tiro);
         }
@@ -328,6 +331,7 @@ public class Jogo extends JPanel implements Runnable {
         }
     }
     ArrayList<Tiro> tiros = new ArrayList<>();
+
     private void handleEvents() {
         tela.addKeyListener(new KeyAdapter() {
             @Override
@@ -401,7 +405,7 @@ public class Jogo extends JPanel implements Runnable {
         FileReader reader = new FileReader(save);
         String str = "";
         for (int i = 0; i < save.length() - 1; i++) {
-            str = str + ((char)reader.read());
+            str = str + ((char) reader.read());
         }
         if (!str.isEmpty()) {
             String[] strs = str.split("%");
@@ -418,8 +422,10 @@ public class Jogo extends JPanel implements Runnable {
 }
 
 class Score {
+
     String name;
     String points;
+
     public Score(String name, String points) {
         this.name = name;
         this.points = points;
