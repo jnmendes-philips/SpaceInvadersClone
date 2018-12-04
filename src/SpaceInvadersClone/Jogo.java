@@ -288,6 +288,11 @@ public class Jogo extends JPanel implements Runnable {
                 }
             }
         }
+        
+        for (Tiro tiro : this.tiros) {
+            campo.tiros.add(tiro);
+        }
+        this.tiros.clear();
     }
 
     @Override
@@ -313,7 +318,7 @@ public class Jogo extends JPanel implements Runnable {
             }
         }
     }
-
+    ArrayList<Tiro> tiros = new ArrayList<>();
     private void handleEvents() {
         tela.addKeyListener(new KeyAdapter() {
             @Override
@@ -324,7 +329,7 @@ public class Jogo extends JPanel implements Runnable {
                 }
                 if (ke.getKeyCode() == KeyEvent.VK_SPACE) {
                     if (stack <= 0) {
-                        campo.tiros.add(campo.jogador.atirar());
+                        tiros.add(campo.jogador.atirar());
                         stack = 60;
                     }
 
