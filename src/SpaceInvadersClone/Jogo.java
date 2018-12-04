@@ -106,6 +106,12 @@ public class Jogo extends JPanel implements Runnable {
         for (Inimigo ini : campo.inimigos) {
 
             for (Tiro tiro : campo.tiros) {
+                for (Barreira barreira : campo.barreiras) {
+                    if((tiro.notUsed && (((tiro.x > barreira.x) && (tiro.x < barreira.x + barreira.largura)) && (tiro.y < barreira.y + barreira.altura)))){
+                            tiros.add(tiro);
+                            tiro.notUsed = false;     
+                    }
+                }       
                 if (tiro.type) {
                     //colisão da bala do player aqui
                     if (tiro.y < 0) {
@@ -140,8 +146,7 @@ public class Jogo extends JPanel implements Runnable {
                         if(barreira.vidas > 0 && (tiro.notUsed && ((tiro.y + tiro.altura > barreira.y) && (((tiro.x + (tiro.largura / 2)) > barreira.x) && ((tiro.x + (tiro.largura / 2)) < barreira.x + barreira.largura))))){
                             tiros.add(tiro);
                             tiro.notUsed = false;
-                            barreira.vidas -= 1;
-                            
+                            barreira.vidas -= 1;       
                             break;
                         }
                         
@@ -180,6 +185,8 @@ public class Jogo extends JPanel implements Runnable {
                         tiros.add(tiro);
                     }
                 }
+                
+                
             }
         }
 
