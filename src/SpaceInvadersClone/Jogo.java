@@ -32,6 +32,10 @@ public class Jogo extends JPanel implements Runnable {
     int stack = 60;
     int contFrame;
     int contFrameMaximo;
+    
+    int velXInimigo = 7;
+    
+    boolean descendo = false;
 
     boolean running;
 
@@ -76,6 +80,7 @@ public class Jogo extends JPanel implements Runnable {
         animacoes(10);
         colisoes();
         saraiva();
+        verificaInimigoMaisDistante();
     }
 
     private void saraiva() {
@@ -93,6 +98,16 @@ public class Jogo extends JPanel implements Runnable {
                 }
             }
             inimigo.stack -= 1;
+        }
+    }
+    
+    private void verificaInimigoMaisDistante() {
+        if (campo.fileira1[campo.fileira1.length - 1].x >= 635 - (campo.fileira1[campo.fileira1.length - 1].largura / 2) - 20 && contFileira5 == 11) {
+            velXInimigo = -7;
+            descendo = true;
+        } else if ((campo.fileira1[0].x <= 20 && contFileira5 == 11)) {
+            velXInimigo = 7;
+            descendo = true;
         }
     }
 
@@ -230,10 +245,12 @@ public class Jogo extends JPanel implements Runnable {
         if (contTempo == frequencia(periodo)) {
             inimigo.x += velX;
         }
+        if (descendo) {
+            inimigo.y += inimigo.altura;
+        }
     }
 
     private void animacoes(int periodo) {
-        //System.out.println(tempoTotal);
         if (contTempo == frequencia(periodo)) {
             if (contFileira1 == campo.fileira1.length) {
                 contFileira1 = 0;
@@ -262,28 +279,31 @@ public class Jogo extends JPanel implements Runnable {
 
             if (contFileira1 >= 0 && contFileira2 == 0 && contFileira3 == 0 && contFileira4 == 0 && contFileira5 == 0) {
                 frequenciaTrocaFrame(periodo, inimigoFileira1);
-                movimentoInimigos(7, inimigoFileira1, periodo);
+                movimentoInimigos(velXInimigo, inimigoFileira1, periodo);
                 ++contFileira1;
             }
             if (contFileira1 == 11 || contFileira2 != 0) {
                 frequenciaTrocaFrame(periodo, inimigoFileira2);
-                movimentoInimigos(7, inimigoFileira2, periodo);
+                movimentoInimigos(velXInimigo, inimigoFileira2, periodo);
                 ++contFileira2;
             }
             if (contFileira2 == 11 || contFileira3 != 0) {
                 frequenciaTrocaFrame(periodo, inimigoFileira3);
-                movimentoInimigos(7, inimigoFileira3, periodo);
+                movimentoInimigos(velXInimigo, inimigoFileira3, periodo);
                 ++contFileira3;
             }
             if (contFileira3 == 11 || contFileira4 != 0) {
                 frequenciaTrocaFrame(periodo, inimigoFileira4);
-                movimentoInimigos(7, inimigoFileira4, periodo);
+                movimentoInimigos(velXInimigo, inimigoFileira4, periodo);
                 ++contFileira4;
             }
             if (contFileira4 == 11 || contFileira5 != 0) {
                 frequenciaTrocaFrame(periodo, inimigoFileira5);
-                movimentoInimigos(7, inimigoFileira5, periodo);
+                movimentoInimigos(velXInimigo, inimigoFileira5, periodo);
                 ++contFileira5;
+                if (contFileira5 == 11) {
+                    descendo = false;
+                }
             }
             
         }
