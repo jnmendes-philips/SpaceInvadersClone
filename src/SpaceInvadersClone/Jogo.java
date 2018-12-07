@@ -32,9 +32,9 @@ public class Jogo extends JPanel implements Runnable {
     int stack = 60;
     int contFrame;
     int contFrameMaximo;
-    
+
     int velXInimigo = 7;
-    
+
     boolean descendo = false;
 
     boolean running;
@@ -44,6 +44,11 @@ public class Jogo extends JPanel implements Runnable {
     int contFileira3 = 0;
     int contFileira4 = 0;
     int contFileira5 = 0;
+
+    int contInimigoEsquerda = 0;
+    int contInimigoDireita = 1;
+
+    Inimigo inimigoMorto;
 
     public Jogo(SpaceInvadersClone tela) {
 
@@ -77,7 +82,7 @@ public class Jogo extends JPanel implements Runnable {
 
     private void update() {
         campo.jogador.mover();
-        animacoes(10);
+        animacoes(900);
         colisoes();
         saraiva();
         verificaInimigoMaisDistante();
@@ -100,12 +105,20 @@ public class Jogo extends JPanel implements Runnable {
             inimigo.stack -= 1;
         }
     }
-    
+
     private void verificaInimigoMaisDistante() {
-        if (campo.fileira1[campo.fileira1.length - 1].x >= 635 - (campo.fileira1[campo.fileira1.length - 1].largura / 2) - 20 && contFileira5 == 11) {
+        Inimigo inimigoMaisDistanceDireita = campo.fileira5[campo.fileira1.length - contInimigoDireita];
+        Inimigo inimigoMaisDistanceEsquerda = campo.fileira5[contInimigoEsquerda];
+        if (inimigoMorto == inimigoMaisDistanceEsquerda) {
+            contInimigoEsquerda++;
+        }
+        if (inimigoMorto == inimigoMaisDistanceDireita) {
+            contInimigoDireita++;
+        }
+        if (inimigoMaisDistanceDireita.x >= 635 - (inimigoMaisDistanceDireita.largura / 2) - 20 && contFileira5 == 11) {
             velXInimigo = -7;
             descendo = true;
-        } else if ((campo.fileira1[0].x <= 20 && contFileira5 == 11)) {
+        } else if ((inimigoMaisDistanceEsquerda.x <= 20 && contFileira5 == 11)) {
             velXInimigo = 7;
             descendo = true;
         }
@@ -219,6 +232,7 @@ public class Jogo extends JPanel implements Runnable {
         }
 
         for (Inimigo inimigo : inimigos) {
+            inimigoMorto = inimigo;
             campo.inimigos.remove(inimigo);
             campo.remove(inimigo);
             if (inimigo.imagem == "inimigo1") {
@@ -305,7 +319,7 @@ public class Jogo extends JPanel implements Runnable {
                     descendo = false;
                 }
             }
-            
+
         }
     }
 
@@ -347,7 +361,7 @@ public class Jogo extends JPanel implements Runnable {
 
     private void render() {
         this.repaint();
-        stack -= 1;
+        stack -= 3;
         ArrayList<Tiro> tiros = new ArrayList<>();
         for (Tiro tiro : campo.tiros) {
             tiros.add(tiro);
@@ -357,9 +371,9 @@ public class Jogo extends JPanel implements Runnable {
             for (Tiro tiro2 : campo.tiros) {
                 if (tiro == tiro2) {
                     if (tiro2.type) {
-                        tiro2.y -= 5;
+                        tiro2.y -= 8;
                     } else {
-                        tiro2.y += 5;
+                        tiro2.y += 8;
                     }
                 }
             }
