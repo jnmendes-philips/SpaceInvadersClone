@@ -125,6 +125,17 @@ public class Jogo extends JPanel implements Runnable {
     }
 
     private void colisoes() {
+        checkDeath();
+        ArrayList<Tiro> tiros = new ArrayList<>();
+        ArrayList<Inimigo> inimigos = new ArrayList<>();
+        //colisão inimigos com o chao
+        for (Inimigo inimigo : campo.inimigos) {
+            if (inimigo.y > campo.jogador.y - 50) {
+                campo.jogador.numVidas = 0;
+                info.qtdVidas.setText(Integer.toString(campo.jogador.numVidas));
+                inimigos.add(inimigo);
+            }
+        }
 
         //colisão player
         if (campo.jogador.x <= 0) {
@@ -133,8 +144,6 @@ public class Jogo extends JPanel implements Runnable {
             campo.jogador.x = 594;
         }
         //colisão tiros
-        ArrayList<Tiro> tiros = new ArrayList<>();
-        ArrayList<Inimigo> inimigos = new ArrayList<>();
         for (Inimigo ini : campo.inimigos) {
 
             for (Tiro tiro : campo.tiros) {
@@ -186,35 +195,12 @@ public class Jogo extends JPanel implements Runnable {
                             break;
                         }
 
-                    }
-                    if (tiro.notUsed && ((((tiro.x + (tiro.largura / 2)) >= campo.jogador.x) && ((tiro.x + (tiro.largura / 2)) <= (campo.jogador.x + campo.jogador.largura))) && (tiro.y > campo.jogador.y + campo.jogador.altura))) {
+                    }//(((tiro.x + (tiro.largura / 2)) >= campo.jogador.x) && ((tiro.x + (tiro.largura / 2)) <= (campo.jogador.x + campo.jogador.largura))) && (tiro.y > campo.jogador.y + campo.jogador.altura)
+                    if (tiro.notUsed && (((tiro.x + (tiro.largura / 2)) > campo.jogador.x) && ((tiro.x + (tiro.largura / 2)) < campo.jogador.x + campo.jogador.largura)) && (tiro.y > campo.jogador.y + campo.jogador.altura)) {
                         campo.jogador.numVidas -= 1;
                         tiro.notUsed = false;
                         tiros.add(tiro);
 
-                        if (campo.jogador.numVidas <= 0) {
-                            campo.jogador.numVidas = 0;
-                            //avento derrota
-                            String scoresSTR = "";
-
-                            try {
-                                //checkFile(save);
-                                ArrayList<Score> scores = gameLoad();
-                                String name = JOptionPane.showInputDialog("Game over:\n type your name");
-                                scores.add(new Score(name, String.valueOf(placar.score)));
-                                gameSave(scores);
-                                //mostra placares aqui
-                                for (Score score : scores) {
-                                    System.out.println(score.name);
-                                    System.out.println(score.points);
-                                }
-                                System.exit(0);
-                            } catch (FileNotFoundException ex) {
-                                System.out.println("Error: File \"save.data\' not found");
-                            } catch (IOException ex) {
-                                Logger.getLogger(Jogo.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        }
                         info.qtdVidas.setText(Integer.toString(campo.jogador.numVidas));
                     }
                     if (tiro.y > 605) {
@@ -244,6 +230,32 @@ public class Jogo extends JPanel implements Runnable {
             }
         }
 
+    }
+
+    public void checkDeath() {
+        if (campo.jogador.numVidas <= 0) {
+            campo.jogador.numVidas = 0;
+            //avento derrota
+            String scoresSTR = "";
+
+            try {
+                //checkFile(save);
+                ArrayList<Score> scores = gameLoad();
+                String name = JOptionPane.showInputDialog("Game over:\n type your name");
+                scores.add(new Score(name, String.valueOf(placar.score)));
+                gameSave(scores);
+                //mostra placares aqui
+                for (Score score : scores) {
+                    System.out.println(score.name);
+                    System.out.println(score.points);
+                }
+                System.exit(0);
+            } catch (FileNotFoundException ex) {
+                System.out.println("Error: File \"save.data\' not found");
+            } catch (IOException ex) {
+                Logger.getLogger(Jogo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     public void addPonto(int q) {
