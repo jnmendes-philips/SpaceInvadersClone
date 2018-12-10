@@ -32,7 +32,7 @@ public class Jogo extends JPanel implements Runnable {
     int stack = 60;
     int contFrame;
     int contFrameMaximo;
-
+    int stack2 = 20;
     int velXInimigo = 7;
 
     boolean descendo = false;
@@ -49,6 +49,7 @@ public class Jogo extends JPanel implements Runnable {
     int contInimigoDireita = 1;
 
     Inimigo inimigoMorto;
+    ArrayList<Sprite> explosions = new ArrayList<Sprite>();
 
     public Jogo(SpaceInvadersClone tela) {
 
@@ -60,6 +61,7 @@ public class Jogo extends JPanel implements Runnable {
         tela.setVisible(true);
         colocarComponentes();
         handleEvents();
+
     }
 
     private void init() {
@@ -86,6 +88,7 @@ public class Jogo extends JPanel implements Runnable {
         colisoes();
         saraiva();
         verificaInimigoMaisDistante();
+        explosionControlUnit();
     }
 
     private void saraiva() {
@@ -121,6 +124,17 @@ public class Jogo extends JPanel implements Runnable {
         } else if ((inimigoMaisDistanceEsquerda.x <= 20 && contFileira5 == 11)) {
             velXInimigo = 7;
             descendo = true;
+        }
+    }
+
+    public void explosionControlUnit() {
+        stack2 -= 1;
+        if (stack2 <= 0) {
+
+            for (Sprite explosion : explosions) {
+                campo.remove(explosion);
+            }
+            stack2 = 20;
         }
     }
 
@@ -220,8 +234,12 @@ public class Jogo extends JPanel implements Runnable {
 
         for (Inimigo inimigo : inimigos) {
             inimigoMorto = inimigo;
+            Sprite EXPLOSION = new Sprite("inimigoAtingido", inimigo.x, inimigo.y, 40, 29, 1, 1);
+            explosions.add(EXPLOSION);
+            campo.add(EXPLOSION);
             campo.inimigos.remove(inimigo);
             campo.remove(inimigo);
+
             if (inimigo.imagem == "inimigo1") {
                 addPonto(30);
             } else if (inimigo.imagem == "inimigo2") {
@@ -258,9 +276,8 @@ public class Jogo extends JPanel implements Runnable {
             }
         }
     }
-    
-    
-    public void checkWin(){
+
+    public void checkWin() {
         if (campo.inimigos.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Game over, you win");
             System.exit(0);
