@@ -126,6 +126,7 @@ public class Jogo extends JPanel implements Runnable {
 
     private void colisoes() {
         checkDeath();
+        checkWin();
         ArrayList<Tiro> tiros = new ArrayList<>();
         ArrayList<Inimigo> inimigos = new ArrayList<>();
         //colisão inimigos com o chao
@@ -255,6 +256,14 @@ public class Jogo extends JPanel implements Runnable {
             } catch (IOException ex) {
                 Logger.getLogger(Jogo.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+    }
+    
+    
+    public void checkWin(){
+        if (campo.inimigos.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Game over, you win");
+            System.exit(0);
         }
     }
 
