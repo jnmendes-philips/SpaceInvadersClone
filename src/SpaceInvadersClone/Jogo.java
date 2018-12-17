@@ -32,6 +32,10 @@ public class Jogo extends JPanel implements Runnable {
     int stack = 60;
     int contFrame;
     int contFrameMaximo;
+    int stack2 = 20;
+    int velXInimigo = 7;
+
+    boolean descendo = false;
 
     boolean running;
 
@@ -40,6 +44,12 @@ public class Jogo extends JPanel implements Runnable {
     int contFileira3 = 0;
     int contFileira4 = 0;
     int contFileira5 = 0;
+
+    int contInimigoEsquerda = 0;
+    int contInimigoDireita = 1;
+
+    Inimigo inimigoMorto;
+    ArrayList<Sprite> explosions = new ArrayList<Sprite>();
 
     public Jogo(SpaceInvadersClone tela) {
 
@@ -51,6 +61,7 @@ public class Jogo extends JPanel implements Runnable {
         tela.setVisible(true);
         colocarComponentes();
         handleEvents();
+
     }
 
     private void init() {
@@ -73,9 +84,11 @@ public class Jogo extends JPanel implements Runnable {
 
     private void update() {
         campo.jogador.mover();
-        animacoes(10);
+        animacoes(900);
         colisoes();
         saraiva();
+        verificaInimigoMaisDistante();
+        explosionControlUnit();
     }
 
     private void saraiva() {
@@ -96,7 +109,48 @@ public class Jogo extends JPanel implements Runnable {
         }
     }
 
+    private void verificaInimigoMaisDistante() {
+        Inimigo inimigoMaisDistanceDireita = campo.fileira5[campo.fileira1.length - contInimigoDireita];
+        Inimigo inimigoMaisDistanceEsquerda = campo.fileira5[contInimigoEsquerda];
+        if (inimigoMorto == inimigoMaisDistanceEsquerda) {
+            contInimigoEsquerda++;
+        }
+        if (inimigoMorto == inimigoMaisDistanceDireita) {
+            contInimigoDireita++;
+        }
+        if (inimigoMaisDistanceDireita.x >= 635 - (inimigoMaisDistanceDireita.largura / 2) - 20 && contFileira5 == 11) {
+            velXInimigo = -7;
+            descendo = true;
+        } else if ((inimigoMaisDistanceEsquerda.x <= 20 && contFileira5 == 11)) {
+            velXInimigo = 7;
+            descendo = true;
+        }
+    }
+
+    public void explosionControlUnit() {
+        stack2 -= 1;
+        if (stack2 <= 0) {
+
+            for (Sprite explosion : explosions) {
+                campo.remove(explosion);
+            }
+            stack2 = 20;
+        }
+    }
+
     private void colisoes() {
+        checkDeath();
+        checkWin();
+        ArrayList<Tiro> tiros = new ArrayList<>();
+        ArrayList<Inimigo> inimigos = new ArrayList<>();
+        //colisão inimigos com o chao
+        for (Inimigo inimigo : campo.inimigos) {
+            if (inimigo.y > campo.jogador.y - 50) {
+                campo.jogador.numVidas = 0;
+                info.qtdVidas.setText(Integer.toString(campo.jogador.numVidas));
+                inimigos.add(inimigo);
+            }
+        }
 
         //colisão player
         if (campo.jogador.x <= 0) {
@@ -105,8 +159,6 @@ public class Jogo extends JPanel implements Runnable {
             campo.jogador.x = 594;
         }
         //colisão tiros
-        ArrayList<Tiro> tiros = new ArrayList<>();
-        ArrayList<Inimigo> inimigos = new ArrayList<>();
         for (Inimigo ini : campo.inimigos) {
 
             for (Tiro tiro : campo.tiros) {
@@ -158,35 +210,12 @@ public class Jogo extends JPanel implements Runnable {
                             break;
                         }
 
-                    }
-                    if (tiro.notUsed && ((((tiro.x + (tiro.largura / 2)) >= campo.jogador.x) && ((tiro.x + (tiro.largura / 2)) <= (campo.jogador.x + campo.jogador.largura))) && (tiro.y > campo.jogador.y + campo.jogador.altura))) {
+                    }//(((tiro.x + (tiro.largura / 2)) >= campo.jogador.x) && ((tiro.x + (tiro.largura / 2)) <= (campo.jogador.x + campo.jogador.largura))) && (tiro.y > campo.jogador.y + campo.jogador.altura)
+                    if (tiro.notUsed && (((tiro.x + (tiro.largura / 2)) > campo.jogador.x) && ((tiro.x + (tiro.largura / 2)) < campo.jogador.x + campo.jogador.largura)) && (tiro.y > campo.jogador.y + campo.jogador.altura)) {
                         campo.jogador.numVidas -= 1;
                         tiro.notUsed = false;
                         tiros.add(tiro);
 
-                        if (campo.jogador.numVidas <= 0) {
-                            campo.jogador.numVidas = 0;
-                            //avento derrota
-                            String scoresSTR = "";
-
-                            try {
-                                //checkFile(save);
-                                ArrayList<Score> scores = gameLoad();
-                                String name = JOptionPane.showInputDialog("Game over:\n type your name");
-                                scores.add(new Score(name, String.valueOf(placar.score)));
-                                gameSave(scores);
-                                //mostra placares aqui
-                                for (Score score : scores) {
-                                    System.out.println(score.name);
-                                    System.out.println(score.points);
-                                }
-                                System.exit(0);
-                            } catch (FileNotFoundException ex) {
-                                System.out.println("Error: File \"save.data\' not found");
-                            } catch (IOException ex) {
-                                Logger.getLogger(Jogo.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        }
                         info.qtdVidas.setText(Integer.toString(campo.jogador.numVidas));
                     }
                     if (tiro.y > 605) {
@@ -204,8 +233,13 @@ public class Jogo extends JPanel implements Runnable {
         }
 
         for (Inimigo inimigo : inimigos) {
+            inimigoMorto = inimigo;
+            Sprite EXPLOSION = new Sprite("inimigoAtingido", inimigo.x, inimigo.y, 40, 29, 1, 1);
+            explosions.add(EXPLOSION);
+            campo.add(EXPLOSION);
             campo.inimigos.remove(inimigo);
             campo.remove(inimigo);
+
             if (inimigo.imagem == "inimigo1") {
                 addPonto(30);
             } else if (inimigo.imagem == "inimigo2") {
@@ -215,6 +249,39 @@ public class Jogo extends JPanel implements Runnable {
             }
         }
 
+    }
+
+    public void checkDeath() {
+        if (campo.jogador.numVidas <= 0) {
+            campo.jogador.numVidas = 0;
+            //avento derrota
+            String scoresSTR = "";
+
+            try {
+                //checkFile(save);
+                ArrayList<Score> scores = gameLoad();
+                String name = JOptionPane.showInputDialog("Game over:\n type your name");
+                scores.add(new Score(name, String.valueOf(placar.score)));
+                gameSave(scores);
+                //mostra placares aqui
+                for (Score score : scores) {
+                    System.out.println(score.name);
+                    System.out.println(score.points);
+                }
+                System.exit(0);
+            } catch (FileNotFoundException ex) {
+                System.out.println("Error: File \"save.data\' not found");
+            } catch (IOException ex) {
+                Logger.getLogger(Jogo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    public void checkWin() {
+        if (campo.inimigos.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Game over, you win");
+            System.exit(0);
+        }
     }
 
     public void addPonto(int q) {
@@ -230,10 +297,12 @@ public class Jogo extends JPanel implements Runnable {
         if (contTempo == frequencia(periodo)) {
             inimigo.x += velX;
         }
+        if (descendo) {
+            inimigo.y += inimigo.altura;
+        }
     }
 
     private void animacoes(int periodo) {
-        //System.out.println(tempoTotal);
         if (contTempo == frequencia(periodo)) {
             if (contFileira1 == campo.fileira1.length) {
                 contFileira1 = 0;
@@ -262,30 +331,33 @@ public class Jogo extends JPanel implements Runnable {
 
             if (contFileira1 >= 0 && contFileira2 == 0 && contFileira3 == 0 && contFileira4 == 0 && contFileira5 == 0) {
                 frequenciaTrocaFrame(periodo, inimigoFileira1);
-                movimentoInimigos(7, inimigoFileira1, periodo);
+                movimentoInimigos(velXInimigo, inimigoFileira1, periodo);
                 ++contFileira1;
             }
             if (contFileira1 == 11 || contFileira2 != 0) {
                 frequenciaTrocaFrame(periodo, inimigoFileira2);
-                movimentoInimigos(7, inimigoFileira2, periodo);
+                movimentoInimigos(velXInimigo, inimigoFileira2, periodo);
                 ++contFileira2;
             }
             if (contFileira2 == 11 || contFileira3 != 0) {
                 frequenciaTrocaFrame(periodo, inimigoFileira3);
-                movimentoInimigos(7, inimigoFileira3, periodo);
+                movimentoInimigos(velXInimigo, inimigoFileira3, periodo);
                 ++contFileira3;
             }
             if (contFileira3 == 11 || contFileira4 != 0) {
                 frequenciaTrocaFrame(periodo, inimigoFileira4);
-                movimentoInimigos(7, inimigoFileira4, periodo);
+                movimentoInimigos(velXInimigo, inimigoFileira4, periodo);
                 ++contFileira4;
             }
             if (contFileira4 == 11 || contFileira5 != 0) {
                 frequenciaTrocaFrame(periodo, inimigoFileira5);
-                movimentoInimigos(7, inimigoFileira5, periodo);
+                movimentoInimigos(velXInimigo, inimigoFileira5, periodo);
                 ++contFileira5;
+                if (contFileira5 == 11) {
+                    descendo = false;
+                }
             }
-            
+
         }
     }
 
@@ -327,7 +399,7 @@ public class Jogo extends JPanel implements Runnable {
 
     private void render() {
         this.repaint();
-        stack -= 1;
+        stack -= 3;
         ArrayList<Tiro> tiros = new ArrayList<>();
         for (Tiro tiro : campo.tiros) {
             tiros.add(tiro);
@@ -337,9 +409,9 @@ public class Jogo extends JPanel implements Runnable {
             for (Tiro tiro2 : campo.tiros) {
                 if (tiro == tiro2) {
                     if (tiro2.type) {
-                        tiro2.y -= 5;
+                        tiro2.y -= 8;
                     } else {
-                        tiro2.y += 5;
+                        tiro2.y += 8;
                     }
                 }
             }
